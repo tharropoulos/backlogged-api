@@ -14,6 +14,14 @@ namespace backlogged_api.Data
         {
             Configuration = configuration;
         }
+        public DbSet<Game> Games { get; set; } = null!;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Game>()
+                .Property(e => e.id)
+                .HasDefaultValueSql("gen_random_uuid()");
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
     }
