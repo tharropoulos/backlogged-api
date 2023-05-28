@@ -10,6 +10,8 @@
         public string? backgroundImageUrl { get; set; }
         public Guid? franchiseId { get; set; }
         public Franchise? franchise { get; set; }
+        public Guid? publisherId { get; set; }
+        public Publisher? publisher { get; set; }
 
 
 
