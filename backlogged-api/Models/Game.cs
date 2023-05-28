@@ -8,6 +8,9 @@
         public float rating { get; set; }
         public string? coverImageUrl { get; set; }
         public string? backgroundImageUrl { get; set; }
+        public Guid? franchiseId { get; set; }
+        public Franchise? franchise { get; set; }
+
 
 
     }
