@@ -13,6 +13,7 @@
         public Guid? publisherId { get; set; }
         public Publisher? publisher { get; set; }
         public ICollection<Genre>? genres { get; set; }
+        public ICollection<Developer>? developers { get; set; }
         
 
 
