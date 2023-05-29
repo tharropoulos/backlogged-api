@@ -19,24 +19,28 @@ namespace backlogged_api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //specify the relation
+            //Franchise-Game one-to-many relationship
             modelBuilder
                 .Entity<Franchise>()
                 .HasMany(f => f.games)
                 .WithOne(g => g.franchise)
                 .HasForeignKey(g => g.franchiseId)
                 .HasPrincipalKey(e => e.id);
+            //Publisher-Game one-to-many relationship
             modelBuilder
                 .Entity<Publisher>()
                 .HasMany(f => f.games)
                 .WithOne(g => g.publisher)
                 .HasForeignKey(g => g.publisherId)
                 .HasPrincipalKey(e => e.id);
+            //Game-Review one-to-many relationship 
             modelBuilder
                 .Entity<Game>()
                 .HasMany(e => e.reviews)
                 .WithOne(e => e.game)
                 .HasForeignKey(e => e.gameId)
                 .HasPrincipalKey(e => e.id);
+            //User-Review one-to-many relationship
             modelBuilder
                 .Entity<User>()
                 .HasMany(e => e.reviews)
@@ -50,14 +54,17 @@ namespace backlogged_api.Data
                 .WithOne(e => e.user)
                 .HasForeignKey<Backlog>(e => e.userId)
                 .IsRequired(false);
+            // Game-Genre many-to-many relationship
             modelBuilder
                 .Entity<Genre>()
                 .HasMany(e => e.games)
                 .WithMany(e => e.genres);
+            // Game-Developer many-to-many relationship
             modelBuilder
                 .Entity<Developer>()
                 .HasMany(e => e.games)
                 .WithMany(e => e.developers);
+            // Game-Platform many-to-many relationship
             modelBuilder
                 .Entity<Platform>()
                 .HasMany(e => e.games)
@@ -67,6 +74,7 @@ namespace backlogged_api.Data
                 .Entity<Game>()
                 .HasMany(e => e.backlogs)
                 .WithMany(e => e.games);
+
             //generate guids on the database
             modelBuilder
                 .Entity<Game>()
@@ -120,6 +128,7 @@ namespace backlogged_api.Data
                 .Entity<User>()
                 .Property(e => e.id)
                 .HasDefaultValueSql("gen_random_uuid()");
+
             // Set the email as an index and make it unique
             modelBuilder
                 .Entity<User>()
