@@ -7,6 +7,7 @@
 		<RootNamespace>backlogged_api</RootNamespace>
 		<UserSecretsId>fe0bca3a-b606-41dc-aae9-bb779acf0cc2</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<InvariantGlobalization>true</InvariantGlobalization>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 	</PropertyGroup>
@@ -32,6 +33,10 @@
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="DTO\Franchise\" />
 	</ItemGroup>
 
 </Project>

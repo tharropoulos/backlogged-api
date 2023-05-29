@@ -19,6 +19,7 @@ namespace backlogged_api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //specify the relation
+
             //Franchise-Game one-to-many relationship
             modelBuilder
                 .Entity<Franchise>()
@@ -137,5 +138,9 @@ namespace backlogged_api.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+        public DbSet<backlogged_api.Models.Publisher> Publisher { get; set; } = default!;
+        public DbSet<backlogged_api.Models.Developer> Developer { get; set; } = default!;
+        public DbSet<backlogged_api.Models.Platform> Platform { get; set; } = default!;
+        public DbSet<backlogged_api.Models.Genre> Genre { get; set; } = default!;
     }
 }

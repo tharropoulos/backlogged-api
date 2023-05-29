@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backlogged-api", "backlogged-api\backlogged-api.csproj", "{0C6C10ED-967C-4CD3-BDF4-CFC3C4CE91F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backlogged-api", "backlogged-api.csproj", "{0C6C10ED-967C-4CD3-BDF4-CFC3C4CE91F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
