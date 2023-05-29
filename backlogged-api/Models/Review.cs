@@ -11,5 +11,7 @@ namespace backlogged_api.Models
         public DateTime createdAt { get; set; } = DateTime.Now;
         public Guid gameId { get; set; }
         public required Game game { get; set; }
+        public Guid authorId { get; set; }
+        public required User author { get; set; }    
     }
 }
