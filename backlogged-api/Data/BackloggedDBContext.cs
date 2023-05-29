@@ -32,6 +32,12 @@ namespace backlogged_api.Data
                 .HasForeignKey(g => g.publisherId)
                 .HasPrincipalKey(e => e.id);
             modelBuilder
+                .Entity<Game>()
+                .HasMany(e => e.reviews)
+                .WithOne(e => e.game)
+                .HasForeignKey(e => e.gameId)
+                .HasPrincipalKey(e => e.id);
+            modelBuilder
                 .Entity<Genre>()
                 .HasMany(e => e.games)
                 .WithMany(e => e.genres);
@@ -76,6 +82,11 @@ namespace backlogged_api.Data
                 .Entity<Platform>()
                 .Property(e => e.id)
                 .HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder
+                .Entity<Review>()
+                .Property(e => e.id)
+                .HasDefaultValueSql("gen_random_uuid()");
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));

@@ -16,5 +16,6 @@
         public ICollection<Developer>? developers { get; set; }
 
         public ICollection<Platform>? platforms { get; set; }
+        public ICollection<Review>? reviews { get; set; }
     }
 }
