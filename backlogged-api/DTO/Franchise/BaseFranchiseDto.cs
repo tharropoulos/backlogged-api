@@ -1,0 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
+namespace backlogged_api.DTO.Franchise
+{
+    public class BaseFranchiseDto
+    {
+        [NotNull] public required string name { get; set; }
+    }
+}
