@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["backlogged-api/backlogged-api.csproj", "backlogged-api/"]
+COPY ["backlogged-api.csproj", "backlogged-api/"]
 RUN dotnet restore "backlogged-api/backlogged-api.csproj"
 COPY . .
 WORKDIR "/src/backlogged-api"
