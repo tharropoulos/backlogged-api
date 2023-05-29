@@ -11,5 +11,7 @@
         public string? passwordHash { get; set; }
         public string? profileImageUrl { get; set; }
         public ICollection<Review>? reviews { get; set; }
+        public Guid? backlogId { get; set; }
+        public Backlog? backlog { get; set; }
     }
 }

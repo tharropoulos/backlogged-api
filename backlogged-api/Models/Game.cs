@@ -14,8 +14,8 @@
         public Publisher? publisher { get; set; }
         public ICollection<Genre>? genres { get; set; }
         public ICollection<Developer>? developers { get; set; }
-
         public ICollection<Platform>? platforms { get; set; }
         public ICollection<Review>? reviews { get; set; }
+        public ICollection<Backlog>? backlogs { get; set; } 
     }
 }

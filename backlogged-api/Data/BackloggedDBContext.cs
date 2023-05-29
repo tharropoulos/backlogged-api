@@ -43,6 +43,13 @@ namespace backlogged_api.Data
                 .WithOne(e => e.author)
                 .HasForeignKey(e => e.authorId)
                 .HasPrincipalKey(e => e.id);
+            // User-Backlog one-to-one relationship
+            modelBuilder
+                .Entity<User>()
+                .HasOne(e => e.backlog)
+                .WithOne(e => e.user)
+                .HasForeignKey<Backlog>(e => e.userId)
+                .IsRequired(false);
             modelBuilder
                 .Entity<Genre>()
                 .HasMany(e => e.games)
@@ -55,6 +62,11 @@ namespace backlogged_api.Data
                 .Entity<Platform>()
                 .HasMany(e => e.games)
                 .WithMany(e => e.platforms);
+            // Game-Backlog many-to-many relationship
+            modelBuilder
+                .Entity<Game>()
+                .HasMany(e => e.backlogs)
+                .WithMany(e => e.games);
             //generate guids on the database
             modelBuilder
                 .Entity<Game>()
@@ -93,9 +105,22 @@ namespace backlogged_api.Data
                 .Property(e => e.id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
+                .Entity<Review>()
+                .Property(e => e.authorId)
+                .HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder
+                .Entity<Backlog>()
+                .Property(e => e.id)
+                .HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder
+                .Entity<Backlog>()
+                .Property(e => e.userId)
+                .HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder
                 .Entity<User>()
                 .Property(e => e.id)
                 .HasDefaultValueSql("gen_random_uuid()");
+            // Set the email as an index and make it unique
             modelBuilder
                 .Entity<User>()
                 .HasIndex(e => e.email)
