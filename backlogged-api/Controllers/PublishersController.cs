@@ -83,7 +83,6 @@ namespace backlogged_api.Controllers
         /// <response code="204">Publisher updated, no content</response>
         /// <response code="404">Publisher not found</response>
         /// <response code="400">Bad request</response>
-        // GET: api/Publishers/4e78f04c-74b6-458f-9590-40b2194af61b
         // PUT: api/Publishers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
