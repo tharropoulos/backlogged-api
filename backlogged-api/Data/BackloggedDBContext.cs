@@ -31,6 +31,18 @@ namespace backlogged_api.Data
                 .WithOne(g => g.publisher)
                 .HasForeignKey(g => g.publisherId)
                 .HasPrincipalKey(e => e.id);
+            modelBuilder
+                .Entity<Genre>()
+                .HasMany(e => e.games)
+                .WithMany(e => e.genres);
+            modelBuilder
+                .Entity<Developer>()
+                .HasMany(e => e.games)
+                .WithMany(e => e.developers);
+            modelBuilder
+                .Entity<Platform>()
+                .HasMany(e => e.games)
+                .WithMany(e => e.platforms);
             //generate guids on the database
             modelBuilder
                 .Entity<Game>()
@@ -50,6 +62,18 @@ namespace backlogged_api.Data
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Publisher>()
+                .Property(e => e.id)
+                .HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder
+                .Entity<Genre>()
+                .Property(e => e.id)
+                .HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder
+                .Entity<Developer>()
+                .Property(e => e.id)
+                .HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder
+                .Entity<Platform>()
                 .Property(e => e.id)
                 .HasDefaultValueSql("gen_random_uuid()");
         }

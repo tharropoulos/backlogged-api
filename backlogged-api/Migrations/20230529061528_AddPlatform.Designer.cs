@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backlogged_api.Data;
@@ -11,9 +12,11 @@ using backlogged_api.Data;
 namespace backlogged_api.Migrations
 {
     [DbContext(typeof(BackloggedDBContext))]
-    partial class BackloggedDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230529061528_AddPlatform")]
+    partial class AddPlatform
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace backlogged_api.Migrations
 
                     b.HasIndex("gamesid");
 
-                    b.ToTable("DeveloperGame", (string)null);
+                    b.ToTable("DeveloperGame");
                 });
 
             modelBuilder.Entity("GameGenre", b =>
@@ -49,7 +52,7 @@ namespace backlogged_api.Migrations
 
                     b.HasIndex("genresid");
 
-                    b.ToTable("GameGenre", (string)null);
+                    b.ToTable("GameGenre");
                 });
 
             modelBuilder.Entity("GamePlatform", b =>
@@ -64,7 +67,7 @@ namespace backlogged_api.Migrations
 
                     b.HasIndex("platformsid");
 
-                    b.ToTable("GamePlatform", (string)null);
+                    b.ToTable("GamePlatform");
                 });
 
             modelBuilder.Entity("backlogged_api.Models.Developer", b =>
@@ -80,7 +83,7 @@ namespace backlogged_api.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Developer", (string)null);
+                    b.ToTable("Developer");
                 });
 
             modelBuilder.Entity("backlogged_api.Models.Franchise", b =>
@@ -96,7 +99,7 @@ namespace backlogged_api.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Franchises", (string)null);
+                    b.ToTable("Franchises");
                 });
 
             modelBuilder.Entity("backlogged_api.Models.Game", b =>
@@ -138,7 +141,7 @@ namespace backlogged_api.Migrations
 
                     b.HasIndex("publisherId");
 
-                    b.ToTable("Games", (string)null);
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("backlogged_api.Models.Genre", b =>
@@ -154,7 +157,7 @@ namespace backlogged_api.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Genre", (string)null);
+                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("backlogged_api.Models.Platform", b =>
@@ -170,7 +173,7 @@ namespace backlogged_api.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Platform", (string)null);
+                    b.ToTable("Platform");
                 });
 
             modelBuilder.Entity("backlogged_api.Models.Publisher", b =>
@@ -186,7 +189,7 @@ namespace backlogged_api.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Publisher", (string)null);
+                    b.ToTable("Publisher");
                 });
 
             modelBuilder.Entity("DeveloperGame", b =>
