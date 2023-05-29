@@ -1,6 +1,6 @@
 ﻿namespace backlogged_api.Models
 {
-    public class Game
+    public record Game
     {
         public Guid id { get; set; }
         public required string title { get; set; }
