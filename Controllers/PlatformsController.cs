@@ -11,7 +11,7 @@ using backlogged_api.DTO.Platform;
 
 namespace backlogged_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     public class PlatformsController : ControllerBase
