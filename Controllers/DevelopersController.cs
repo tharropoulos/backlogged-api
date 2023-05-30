@@ -32,11 +32,11 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<DeveloperDto>>> GetAllDevelopers()
         {
-            if (_context.Developer == null)
+            if (_context.Developers == null)
             {
                 return NotFound();
             }
-            var developers = await _context.Developer.Select(s => new DeveloperDto
+            var developers = await _context.Developers.Select(s => new DeveloperDto
             {
                 id = s.id,
                 name = s.name
@@ -55,11 +55,11 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DeveloperDto>> GetDeveloper(Guid id)
         {
-            if (_context.Developer == null)
+            if (_context.Developers == null)
             {
                 return NotFound();
             }
-            var developer = await _context.Developer
+            var developer = await _context.Developers
             .Where(w => w.id == id)
             .Select(s => new DeveloperDto
             {
@@ -89,7 +89,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutDeveloper(Guid id, UpdateDeveloperDto developerDto)
         {
-            if (!_context.Developer.Any(a => a.id == id))
+            if (!_context.Developers.Any(a => a.id == id))
             {
                 return NotFound();
             }
@@ -129,7 +129,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<DeveloperDto>> PostDeveloper(CreateDeveloperDto developerDto)
         {
-            if (_context.Developer == null)
+            if (_context.Developers == null)
             {
                 return Problem("Entity set 'BackloggedDBContext.Developer'  is null.");
             }
@@ -137,7 +137,7 @@ namespace backlogged_api.Controllers
             {
                 name = developerDto.name
             };
-            _context.Developer.Add(developer);
+            _context.Developers.Add(developer);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetDeveloper), new { id = developer.id }, new DeveloperDto { id = developer.id, name = developer.name });
         }
@@ -154,17 +154,17 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteDeveloper(Guid id)
         {
-            if (_context.Developer == null)
+            if (_context.Developers == null)
             {
                 return NotFound();
             }
-            var developer = await _context.Developer.FindAsync(id);
+            var developer = await _context.Developers.FindAsync(id);
             if (developer == null)
             {
                 return NotFound();
             }
 
-            _context.Developer.Remove(developer);
+            _context.Developers.Remove(developer);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -172,7 +172,7 @@ namespace backlogged_api.Controllers
 
         private bool DeveloperExists(Guid id)
         {
-            return (_context.Developer?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Developers?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

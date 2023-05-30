@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,11 +33,11 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<GenreDto>>> GetAllGenres()
         {
-            if (_context.Genre == null)
+            if (_context.Genres == null)
             {
                 return NotFound();
             }
-            var genres = await _context.Genre.Select(p => new GenreDto
+            var genres = await _context.Genres.Select(p => new GenreDto
             {
                 id = p.id,
                 name = p.name
@@ -58,12 +57,12 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GenreDto>> GetGenre(Guid id)
         {
-            if (_context.Genre == null)
+            if (_context.Genres == null)
             {
                 return NotFound();
             }
 
-            var genre = await _context.Genre
+            var genre = await _context.Genres
             .Where(w => w.id == id)
             .Select(s => new GenreDto
             {
@@ -95,7 +94,7 @@ namespace backlogged_api.Controllers
         public async Task<IActionResult> PutGenre(Guid id, UpdateGenreDto genreDto)
         {
 
-            if (!_context.Genre.Any(a => a.id == id))
+            if (!_context.Genres.Any(a => a.id == id))
             {
                 return NotFound();
             }
@@ -139,7 +138,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<GenreDto>> Postgenre(CreateGenreDto genreDto)
         {
-            if (_context.Genre == null)
+            if (_context.Genres == null)
             {
                 return Problem("Entity set 'BackloggedDBContext.Genre'  is null.");
             }
@@ -147,7 +146,7 @@ namespace backlogged_api.Controllers
             {
                 name = genreDto.name
             };
-            _context.Genre.Add(genre);
+            _context.Genres.Add(genre);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetGenre), new { id = genre.id }, new GenreDto { id = genre.id, name = genre.name });
         }
@@ -164,17 +163,17 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteGenre(Guid id)
         {
-            if (_context.Genre == null)
+            if (_context.Genres == null)
             {
                 return NotFound();
             }
-            var genre = await _context.Genre.FindAsync(id);
+            var genre = await _context.Genres.FindAsync(id);
             if (genre == null)
             {
                 return NotFound();
             }
 
-            _context.Genre.Remove(genre);
+            _context.Genres.Remove(genre);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -182,7 +181,7 @@ namespace backlogged_api.Controllers
 
         private bool GenreExists(Guid id)
         {
-            return (_context.Genre?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Genres?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

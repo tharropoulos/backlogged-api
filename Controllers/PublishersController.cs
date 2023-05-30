@@ -34,11 +34,11 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PublisherDto>>> GetAllPublishers()
         {
-            if (_context.Publisher == null)
+            if (_context.Publishers == null)
             {
                 return NotFound();
             }
-            var publishers = await _context.Publisher.Select(s => new PublisherDto
+            var publishers = await _context.Publishers.Select(s => new PublisherDto
             {
                 id = s.id,
                 name = s.name,
@@ -59,11 +59,11 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<PublisherDto>> GetPublisher(Guid id)
         {
-            if (_context.Publisher == null)
+            if (_context.Publishers == null)
             {
                 return NotFound();
             }
-            var publisher = await _context.Publisher.Where(w => w.id == id).Select(s => new PublisherDto
+            var publisher = await _context.Publishers.Where(w => w.id == id).Select(s => new PublisherDto
             {
                 id = s.id,
                 name = s.name,
@@ -91,12 +91,12 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutPublisher(Guid id, UpdatePublisherDto publisherDto)
         {
-            if (!_context.Publisher.Any(a => a.id == id))
+            if (!_context.Publishers.Any(a => a.id == id))
             {
                 return NotFound();
             }
 
-            var publisher = new Publisher { name = publisherDto.name, id = id }; 
+            var publisher = new Publisher { name = publisherDto.name, id = id };
 
             _context.Entry(publisher).State = EntityState.Modified;
 
@@ -133,7 +133,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PublisherDto>> PostPublisher(CreatePublisherDto publisherDto)
         {
-            if (_context.Publisher == null)
+            if (_context.Publishers == null)
             {
                 return Problem("Entity set 'BackloggedDBContext.Publisher'  is null.");
             }
@@ -141,7 +141,7 @@ namespace backlogged_api.Controllers
             {
                 name = publisherDto.name,
             };
-            _context.Publisher.Add(publisher);
+            _context.Publishers.Add(publisher);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPublisher), new { id = publisher.id }, new
@@ -162,17 +162,17 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePublisher(Guid id)
         {
-            if (_context.Publisher == null)
+            if (_context.Publishers == null)
             {
                 return NotFound();
             }
-            var publisher = await _context.Publisher.FindAsync(id);
+            var publisher = await _context.Publishers.FindAsync(id);
             if (publisher == null)
             {
                 return NotFound();
             }
 
-            _context.Publisher.Remove(publisher);
+            _context.Publishers.Remove(publisher);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -180,7 +180,7 @@ namespace backlogged_api.Controllers
 
         private bool PublisherExists(Guid id)
         {
-            return (_context.Publisher?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Publishers?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

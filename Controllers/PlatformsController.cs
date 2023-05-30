@@ -33,11 +33,11 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PlatformDto>>> GetAllPlatforms()
         {
-            if (_context.Platform == null)
+            if (_context.Platforms == null)
             {
                 return NotFound();
             }
-            var platforms = await _context.Platform.Select(p => new PlatformDto
+            var platforms = await _context.Platforms.Select(p => new PlatformDto
             {
                 id = p.id,
                 name = p.name
@@ -57,11 +57,11 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Platform>> GetPlatform(Guid id)
         {
-            if (_context.Platform == null)
+            if (_context.Platforms == null)
             {
                 return NotFound();
             }
-            var platform = await _context.Platform
+            var platform = await _context.Platforms
             .Where(w => w.id == id)
             .Select(s => new PlatformDto
             {
@@ -93,7 +93,7 @@ namespace backlogged_api.Controllers
         public async Task<IActionResult> PutPlatform(Guid id, UpdatePlatformDto platformDto)
         {
 
-            if (!_context.Platform.Any(a => a.id == id))
+            if (!_context.Platforms.Any(a => a.id == id))
             {
                 return NotFound();
             }
@@ -137,7 +137,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PlatformDto>> PostPlatform(CreatePlatformDto platformDto)
         {
-            if (_context.Platform == null)
+            if (_context.Platforms == null)
             {
                 return Problem("Entity set 'BackloggedDBContext.Platform'  is null.");
             }
@@ -145,7 +145,7 @@ namespace backlogged_api.Controllers
             {
                 name = platformDto.name
             };
-            _context.Platform.Add(platform);
+            _context.Platforms.Add(platform);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetPlatform), new { id = platform.id }, new PlatformDto { id = platform.id, name = platform.name });
         }
@@ -162,17 +162,17 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePlatform(Guid id)
         {
-            if (_context.Platform == null)
+            if (_context.Platforms == null)
             {
                 return NotFound();
             }
-            var platform = await _context.Platform.FindAsync(id);
+            var platform = await _context.Platforms.FindAsync(id);
             if (platform == null)
             {
                 return NotFound();
             }
 
-            _context.Platform.Remove(platform);
+            _context.Platforms.Remove(platform);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -180,7 +180,7 @@ namespace backlogged_api.Controllers
 
         private bool PlatformExists(Guid id)
         {
-            return (_context.Platform?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Platforms?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }
