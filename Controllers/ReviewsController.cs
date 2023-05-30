@@ -168,6 +168,7 @@ namespace backlogged_api.Controllers
                 details = reviewDto.Details,
                 gameId = gameId,
                 authorId = authorId,
+                // could be redudant, but just in case
                 createdAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
             };
             _context.Reviews.Add(review);
