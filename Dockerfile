@@ -2,6 +2,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
+ARG PGHOST
+ARG PGPASSWORD
+ARG PGPORT
+ARG PGUSER
+ARG PGDATABASE
+
 ENV ASPNETCORE_URLS=http://+:5000
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
@@ -21,6 +27,7 @@ FROM build AS publish
 RUN dotnet publish "backlogged-api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+ENV "ConnectionStrings__DefaultConnection"="Host=${PGHOST};Port=${PGPORT};Username=${PGUSER};Password=${PGPASSWORD};Database=${PGDATABASE}"
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "backlogged-api.dll"]
