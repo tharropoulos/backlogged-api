@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using backlogged_api.Models;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
@@ -138,9 +138,9 @@ namespace backlogged_api.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-        public DbSet<backlogged_api.Models.Publisher> Publisher { get; set; } = default!;
-        public DbSet<backlogged_api.Models.Developer> Developer { get; set; } = default!;
-        public DbSet<backlogged_api.Models.Platform> Platform { get; set; } = default!;
-        public DbSet<backlogged_api.Models.Genre> Genre { get; set; } = default!;
+        public DbSet<Publisher> Publishers { get; set; } = default!;
+        public DbSet<Developer> Developers { get; set; } = default!;
+        public DbSet<Platform> Platforms { get; set; } = default!;
+        public DbSet<Genre> Genres { get; set; } = default!;
     }
 }
