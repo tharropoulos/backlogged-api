@@ -7,6 +7,7 @@
         public string? description { get; set; }
         public float rating { get; set; }
         public string? coverImageUrl { get; set; }
+        public DateTime releaseDate { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
         public string? backgroundImageUrl { get; set; }
         public Guid? franchiseId { get; set; }
         public Franchise? franchise { get; set; }
@@ -16,6 +17,6 @@
         public ICollection<Developer>? developers { get; set; }
         public ICollection<Platform>? platforms { get; set; }
         public ICollection<Review>? reviews { get; set; }
-        public ICollection<Backlog>? backlogs { get; set; } 
+        public ICollection<Backlog>? backlogs { get; set; }
     }
 }
