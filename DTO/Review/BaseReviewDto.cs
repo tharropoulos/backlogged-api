@@ -7,6 +7,6 @@ namespace backlogged_api.DTO.Review
     {
         public string? Details { get; set; }
         [Range(1, 5)]
-        public int rating { get; set; }
+        public int Rating { get; set; }
     }
 }
