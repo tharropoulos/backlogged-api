@@ -7,8 +7,9 @@ ARG PGPASSWORD
 ARG PGPORT
 ARG PGUSER
 ARG PGDATABASE
+ARG PORT
 
-ENV ASPNETCORE_URLS=http://+:5000
+ENV ASPNETCORE_URLS=https://+:${PORT}
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
