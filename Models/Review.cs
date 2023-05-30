@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace backlogged_api.Models
 {
@@ -10,8 +10,8 @@ namespace backlogged_api.Models
         public string? details { get; set; }
         public DateTime createdAt { get; set; } = DateTime.Now;
         public Guid gameId { get; set; }
-        public required Game game { get; set; }
+        public Game? game { get; set; }
         public Guid authorId { get; set; }
-        public required User author { get; set; }    
+        public User? author { get; set; }
     }
 }
