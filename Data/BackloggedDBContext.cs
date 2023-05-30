@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using backlogged_api.Models;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
@@ -142,5 +142,8 @@ namespace backlogged_api.Data
         public DbSet<Developer> Developers { get; set; } = default!;
         public DbSet<Platform> Platforms { get; set; } = default!;
         public DbSet<Genre> Genres { get; set; } = default!;
+        public DbSet<Review> Reviews { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
+        public DbSet<Backlog> Backlogs { get; set; } = default!;
     }
 }
