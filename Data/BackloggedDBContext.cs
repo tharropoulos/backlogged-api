@@ -64,7 +64,8 @@ namespace backlogged_api.Data
             modelBuilder
                 .Entity<Developer>()
                 .HasMany(e => e.games)
-                .WithMany(e => e.developers);
+                .WithMany(e => e.developers)
+                .UsingEntity("GameDeveloper");
             // Game-Platform many-to-many relationship
             modelBuilder
                 .Entity<Platform>()
