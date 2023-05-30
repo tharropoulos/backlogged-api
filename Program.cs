@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<BackloggedDBContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApiVersioning(opt =>
@@ -60,7 +60,7 @@ if (app.Environment.IsDevelopment())
     {
         //options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     });
-    
+
 }
 
 app.UseHttpsRedirection();
