@@ -1,10 +1,23 @@
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using backlogged_api.Models;
 
 
 namespace backlogged_api.Helpers
 {
-    public class PagedList<T> : List<T> where T : BaseEntity
+    public static class PageListBuilder
+    {
+        public static async Task<PagedList<TEntity>> CreatePagedListAsync<TEntity, TOrder>(IQueryable<TEntity> source,
+                                                                                           Expression<Func<TEntity, TOrder>> orderBy,
+                                                                                           int pageNumber,
+                                                                                           int pageSize)
+        {
+            var count = await source.CountAsync();
+            var items = await source.OrderBy(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize).Distinct().ToListAsync();
+            return new PagedList<TEntity>(items, count, pageNumber, pageSize);
+        }
+    }
+    public class PagedList<T> : List<T>
     {
         public int CurrentPage { get; private set; }
         public int TotalPages { get; private set; }
@@ -22,11 +35,6 @@ namespace backlogged_api.Helpers
             AddRange(items);
         }
 
-        public static async Task<PagedList<T>> ToPageList(IQueryable<T> source, int pageNumber, int pageSize)
-        {
-            var count = source.Count();
-            var items = await source.OrderBy(m => m.id).Skip((pageNumber - 1) * pageSize).Take(pageSize).Distinct().ToListAsync();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
-        }
+
     }
 }
