@@ -1,21 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backlogged_api.Data;
 using backlogged_api.Models;
 using backlogged_api.DTO.Game;
 using backlogged_api.DTO.Developer;
-using backlogged_api.DTO;
 using backlogged_api.DTO.Genre;
 using backlogged_api.DTO.Platform;
 using backlogged_api.DTO.Franchise;
 using backlogged_api.DTO.Review;
 using backlogged_api.Helpers;
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 
 namespace backlogged_api.Controllers
 {
@@ -46,7 +41,7 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
 
-            var games = await PagedList<Game>.ToPageList(_context.Games, pagingParams.PageNumber, pagingParams.PageSize);
+            var games = await PageListBuilder.CreatePagedListAsync(_context.Games, m => m.title, pagingParams.PageNumber, pagingParams.PageSize);
 
             var metadata = new
             {
@@ -114,6 +109,62 @@ namespace backlogged_api.Controllers
             }
 
             return Ok(game);
+        }
+
+        [HttpPost("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<GameDto>>> SearchGames([FromBody] GameSearchParams searchParams, [FromQuery] PagingParams pagingParams)
+        {
+            if (_context.Games == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Game, bool>> titleExpression = w => searchParams.Title == null || w.title.Contains(searchParams.Title);
+            Expression<Func<Game, bool>> genreExpression = w => searchParams.GenreIds == null || w.genres.Any(a => searchParams.GenreIds.Contains(a.id));
+            Expression<Func<Game, bool>> platformExpression = w => searchParams.PlatformIds == null || w.platforms.Any(a => searchParams.PlatformIds.Contains(a.id));
+            Expression<Func<Game, bool>> developerExpression = w => searchParams.DeveloperIds == null || w.developers.Any(a => searchParams.DeveloperIds.Contains(a.id));
+            Expression<Func<Game, bool>> publisherExpression = w => searchParams.PublisherIds == null || w.publisherId.HasValue && searchParams.PublisherIds.Contains(w.publisherId.Value);
+            Expression<Func<Game, bool>> franchiseExpression = w => searchParams.FranchiseIds == null || w.franchiseId.HasValue && searchParams.FranchiseIds.Contains(w.franchiseId.Value);
+            Expression<Func<Game, string>> sortExpression = w => searchParams.sortOrder == "asc" ? w.title : null;
+
+            var games = await PageListBuilder.CreatePagedListAsync(_context.Games
+            .Where(titleExpression)
+            .Where(genreExpression)
+            .Where(platformExpression)
+            .Where(developerExpression)
+            .Where(publisherExpression)
+            .Where(franchiseExpression)
+            .OrderBy(sortExpression)
+            .Select(s => new GameDto
+            {
+                Id = s.id,
+                Rating = s.rating,
+                BackgoundImageUrl = s.backgroundImageUrl,
+                CoverImageUrl = s.coverImageUrl,
+                FranchiseId = s.franchiseId,
+                PublisherId = s.publisherId,
+                Title = s.title,
+                Description = s.description,
+                ReleaseDate = s.releaseDate,
+            }), m => m.Title, pagingParams.PageNumber, pagingParams.PageSize);
+
+            var metadata = new
+            {
+                games.TotalCount,
+                games.PageSize,
+                games.CurrentPage,
+                games.TotalPages,
+                games.HasNext,
+                games.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(games);
+
         }
 
         /// <summary>
@@ -268,10 +319,10 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
 
-            var developers = await PagedList<Platform>.ToPageList(_context.Games
-                .Include(i => i.platforms)
+            var developers = await PageListBuilder.CreatePagedListAsync(_context.Games
+                .Include(i => i.developers)
                 .Where(w => w.id == id)
-                .SelectMany(s => s.platforms), pagingParams.PageNumber, pagingParams.PageSize);
+                .SelectMany(s => s.developers), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
 
             var developerDtos = developers.Select(s => new DeveloperDto
             {
@@ -371,10 +422,10 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
-            var genres = await PagedList<Genre>.ToPageList(_context.Games
+            var genres = await PageListBuilder.CreatePagedListAsync(_context.Games
                 .Include(i => i.genres)
                 .Where(w => w.id == id)
-                .SelectMany(s => s.genres), pagingParams.PageNumber, pagingParams.PageSize);
+                .SelectMany(s => s.genres), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
 
             var genreDtos = genres.Select(s => new DeveloperDto
             {
@@ -474,10 +525,10 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
-            var platforms = await PagedList<Platform>.ToPageList(_context.Games
+            var platforms = await PageListBuilder.CreatePagedListAsync(_context.Games
                 .Include(i => i.platforms)
                 .Where(w => w.id == id)
-                .SelectMany(s => s.platforms), pagingParams.PageNumber, pagingParams.PageSize);
+                .SelectMany(s => s.platforms), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
 
             var platformDtos = platforms.Select(s => new DeveloperDto
             {
