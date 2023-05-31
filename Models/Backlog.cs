@@ -1,8 +1,7 @@
 ﻿namespace backlogged_api.Models
 {
-    public record Backlog
+    public record Backlog : BaseEntity
     {
-        public Guid id { get; set; }
         public required Guid userId { get; set; }
         public required User user { get; set; }
         public ICollection<Game>? games { get; set; }

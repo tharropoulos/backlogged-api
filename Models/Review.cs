@@ -2,9 +2,8 @@
 
 namespace backlogged_api.Models
 {
-    public record Review
+    public record Review : BaseEntity
     {
-        public Guid id { get; set; }
         [Range(1, 5)]
         public int rating { get; set; }
         public string? details { get; set; }

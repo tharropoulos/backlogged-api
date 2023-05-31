@@ -1,8 +1,7 @@
 ﻿namespace backlogged_api.Models
 {
-    public record User
+    public record User : BaseEntity
     {
-        public required Guid id { get; set; }
         public required string username { get; set; }
         public string? userName { get; set; }
         public string? lastName { get; set; }
