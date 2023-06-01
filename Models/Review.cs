@@ -10,7 +10,7 @@ namespace backlogged_api.Models
         public DateTime CreatedAt { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
         public Guid GameId { get; set; }
-        public Game? game { get; set; }
+        public Game Game { get; set; }
         public Guid AuthorId { get; set; }
         public User? Author { get; set; }
     }
