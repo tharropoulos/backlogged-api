@@ -1,6 +1,8 @@
-﻿namespace backlogged_api.Models
+using Microsoft.AspNetCore.Identity;
+
+namespace backlogged_api.Models
 {
-    public record User : BaseEntity
+    public class User : IdentityUser<Guid>
     {
         public required string username { get; set; }
         public string? userName { get; set; }

@@ -1,13 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using backlogged_api.Models;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Microsoft.Extensions.Options;
 using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace backlogged_api.Data
 {
-    public class BackloggedDBContext : DbContext
+    // Add Identity Db Context in order to use ASP.NET Identity
+    public class BackloggedDBContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         protected readonly IConfiguration Configuration;
         public BackloggedDBContext(DbContextOptions<BackloggedDBContext> options, IConfiguration configuration) : base(options)
@@ -18,6 +21,8 @@ namespace backlogged_api.Data
         public DbSet<Franchise> Franchises { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Base model creation for scaffolded IdentityUser model
+            base.OnModelCreating(modelBuilder);
             //specify the relation
 
             //Franchise-Game one-to-many relationship
@@ -128,13 +133,13 @@ namespace backlogged_api.Data
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<User>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
 
             // Set the email as an index and make it unique
             modelBuilder
                 .Entity<User>()
-                .HasIndex(e => e.email)
+                .HasIndex(e => e.Email)
                 .IsUnique(true);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
