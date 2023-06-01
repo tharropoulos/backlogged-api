@@ -27,12 +27,12 @@ namespace backlogged_api.Controllers
         public IEnumerable<Game> Get()
         {
 
-            return _backloggedDBContext.Games.Include(i => i.franchise).Include(i => i.publisher).Select(s => new Game
+            return _backloggedDBContext.Games.Include(i => i.Franchise).Include(i => i.Publisher).Select(s => new Game
             {
-                title = s.title,
-                id = s.id,
-                franchise = s.franchise,
-                publisher = s.publisher,
+                Title = s.Title,
+                Id = s.Id,
+                Franchise = s.Franchise,
+                Publisher = s.Publisher,
 
             }).ToList();
             //return Enumerable.Range(1, 5).Select(index => new WeatherForecast

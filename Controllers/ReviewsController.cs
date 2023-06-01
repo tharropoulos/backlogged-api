@@ -39,12 +39,12 @@ namespace backlogged_api.Controllers
             }
             var reviews = await _context.Reviews.Select(p => new ReviewDto
             {
-                Id = p.id,
-                Rating = p.rating,
-                GameId = p.gameId,
-                AuthorId = p.authorId,
-                Details = p.details,
-                CreatedAt = p.createdAt,
+                Id = p.Id,
+                Rating = p.Rating,
+                GameId = p.GameId,
+                AuthorId = p.AuthorId,
+                Details = p.Details,
+                CreatedAt = p.CreatedAt,
 
             }).ToListAsync();
             return Ok(reviews);
@@ -68,15 +68,15 @@ namespace backlogged_api.Controllers
             }
 
             var review = await _context.Reviews
-            .Where(w => w.id == id)
+            .Where(w => w.Id == id)
             .Select(s => new ReviewDto
             {
-                Id = s.id,
-                Rating = s.rating,
-                GameId = s.gameId,
-                AuthorId = s.authorId,
-                Details = s.details,
-                CreatedAt = s.createdAt,
+                Id = s.Id,
+                Rating = s.Rating,
+                GameId = s.GameId,
+                AuthorId = s.AuthorId,
+                Details = s.Details,
+                CreatedAt = s.CreatedAt,
 
             }).FirstOrDefaultAsync();
 
@@ -106,15 +106,15 @@ namespace backlogged_api.Controllers
 
             var reviewToUpdate = await _context.Reviews
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (reviewToUpdate == null)
             {
                 return NotFound();
             }
 
-            reviewToUpdate.rating = reviewDto.Rating;
-            reviewToUpdate.details = reviewDto.Details;
+            reviewToUpdate.Rating = reviewDto.Rating;
+            reviewToUpdate.Details = reviewDto.Details;
 
             _context.Entry(reviewToUpdate).State = EntityState.Modified;
 
@@ -154,26 +154,34 @@ namespace backlogged_api.Controllers
             {
                 return Problem("Entity set 'BackloggedDBContext.Review'  is null.");
             }
-            if (!_context.Games.Any(g => g.id == gameId))
+            if (!_context.Games.Any(g => g.Id == gameId))
             {
                 return BadRequest("Game does not exist.");
             }
-            if (!_context.Users.Any(u => u.id == authorId))
+            if (!_context.Users.Any(u => u.Id == authorId))
             {
                 return BadRequest("User does not exist.");
             }
             var review = new Review
             {
-                rating = reviewDto.Rating,
-                details = reviewDto.Details,
-                gameId = gameId,
-                authorId = authorId,
+                Rating = reviewDto.Rating,
+                Details = reviewDto.Details,
+                GameId = gameId,
+                AuthorId = authorId,
                 // could be redudant, but just in case
-                createdAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
+                CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
             };
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetReview), new { id = review.id }, new ReviewDto { Id = review.id, Rating = review.rating, Details = review.details, GameId = review.gameId, AuthorId = review.authorId, CreatedAt = review.createdAt });
+            return CreatedAtAction(nameof(GetReview), new { id = review.Id }, new ReviewDto
+            {
+                Id = review.Id,
+                Rating = review.Rating,
+                Details = review.Details,
+                GameId = review.GameId,
+                AuthorId = review.AuthorId,
+                CreatedAt = review.CreatedAt
+            });
         }
 
         /// <summary>
@@ -206,7 +214,7 @@ namespace backlogged_api.Controllers
 
         private bool ReviewExists(Guid id)
         {
-            return (_context.Reviews?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Reviews?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

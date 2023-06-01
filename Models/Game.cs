@@ -2,20 +2,20 @@
 {
     public record Game : BaseEntity
     {
-        public required string title { get; set; }
-        public string? description { get; set; }
-        public float rating { get; set; }
-        public string? coverImageUrl { get; set; }
-        public DateTime releaseDate { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-        public string? backgroundImageUrl { get; set; }
-        public Guid? franchiseId { get; set; }
-        public Franchise? franchise { get; set; }
-        public Guid? publisherId { get; set; }
-        public Publisher? publisher { get; set; }
-        public ICollection<Genre>? genres { get; set; }
-        public ICollection<Developer>? developers { get; set; }
-        public ICollection<Platform>? platforms { get; set; }
-        public ICollection<Review>? reviews { get; set; }
-        public ICollection<Backlog>? backlogs { get; set; }
+        public required string Title { get; set; }
+        public string? Description { get; set; }
+        public float Rating { get; set; }
+        public string? CoverImageUrl { get; set; }
+        public DateTime ReleaseDate { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        public string? BackgroundImageUrl { get; set; }
+        public Guid? FranchiseId { get; set; }
+        public Franchise? Franchise { get; set; }
+        public Guid? PublisherId { get; set; }
+        public Publisher? Publisher { get; set; }
+        public ICollection<Genre>? Genres { get; set; }
+        public ICollection<Developer>? Developers { get; set; }
+        public ICollection<Platform>? Platforms { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public ICollection<Backlog>? Backlogs { get; set; }
     }
 }

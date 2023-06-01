@@ -2,7 +2,7 @@
 {
     public record Publisher : BaseEntity
     {
-        public required string name { get; set; }
-        public ICollection<Game>? games { get; set; }
+        public required string Name { get; set; }
+        public ICollection<Game>? Games { get; set; }
     }
 }

@@ -39,8 +39,8 @@ namespace backlogged_api.Controllers
             }
             var platforms = await _context.Platforms.Select(p => new PlatformDto
             {
-                id = p.id,
-                name = p.name
+                id = p.Id,
+                name = p.Name
             }).ToListAsync();
             return Ok(platforms);
         }
@@ -62,11 +62,11 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
             var platform = await _context.Platforms
-            .Where(w => w.id == id)
+            .Where(w => w.Id == id)
             .Select(s => new PlatformDto
             {
-                id = s.id,
-                name = s.name
+                id = s.Id,
+                name = s.Name
             }).FirstOrDefaultAsync();
 
             if (platform == null)
@@ -93,15 +93,15 @@ namespace backlogged_api.Controllers
         public async Task<IActionResult> PutPlatform(Guid id, UpdatePlatformDto platformDto)
         {
 
-            if (!_context.Platforms.Any(a => a.id == id))
+            if (!_context.Platforms.Any(a => a.Id == id))
             {
                 return NotFound();
             }
 
             var platform = new Platform
             {
-                id = id,
-                name = platformDto.name
+                Id = id,
+                Name = platformDto.name
             };
             _context.Entry(platform).State = EntityState.Modified;
 
@@ -143,11 +143,11 @@ namespace backlogged_api.Controllers
             }
             var platform = new Platform
             {
-                name = platformDto.name
+                Name = platformDto.name
             };
             _context.Platforms.Add(platform);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetPlatform), new { id = platform.id }, new PlatformDto { id = platform.id, name = platform.name });
+            return CreatedAtAction(nameof(GetPlatform), new { id = platform.Id }, new PlatformDto { id = platform.Id, name = platform.Name });
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace backlogged_api.Controllers
 
         private bool PlatformExists(Guid id)
         {
-            return (_context.Platforms?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Platforms?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

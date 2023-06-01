@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using backlogged_api.Models;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
@@ -28,108 +28,108 @@ namespace backlogged_api.Data
             //Franchise-Game one-to-many relationship
             modelBuilder
                 .Entity<Franchise>()
-                .HasMany(f => f.games)
-                .WithOne(g => g.franchise)
-                .HasForeignKey(g => g.franchiseId)
-                .HasPrincipalKey(e => e.id);
+                .HasMany(f => f.Games)
+                .WithOne(g => g.Franchise)
+                .HasForeignKey(g => g.FranchiseId)
+                .HasPrincipalKey(e => e.Id);
             //Publisher-Game one-to-many relationship
             modelBuilder
                 .Entity<Publisher>()
-                .HasMany(f => f.games)
-                .WithOne(g => g.publisher)
-                .HasForeignKey(g => g.publisherId)
-                .HasPrincipalKey(e => e.id);
+                .HasMany(f => f.Games)
+                .WithOne(g => g.Publisher)
+                .HasForeignKey(g => g.PublisherId)
+                .HasPrincipalKey(e => e.Id);
             //Game-Review one-to-many relationship 
             modelBuilder
                 .Entity<Game>()
-                .HasMany(e => e.reviews)
+                .HasMany(e => e.Reviews)
                 .WithOne(e => e.game)
-                .HasForeignKey(e => e.gameId)
-                .HasPrincipalKey(e => e.id);
+                .HasForeignKey(e => e.GameId)
+                .HasPrincipalKey(e => e.Id);
             //User-Review one-to-many relationship
             modelBuilder
                 .Entity<User>()
-                .HasMany(e => e.reviews)
-                .WithOne(e => e.author)
-                .HasForeignKey(e => e.authorId)
-                .HasPrincipalKey(e => e.id);
+                .HasMany(e => e.Reviews)
+                .WithOne(e => e.Author)
+                .HasForeignKey(e => e.AuthorId)
+                .HasPrincipalKey(e => e.Id);
             // User-Backlog one-to-one relationship
             modelBuilder
                 .Entity<User>()
-                .HasOne(e => e.backlog)
-                .WithOne(e => e.user)
-                .HasForeignKey<Backlog>(e => e.userId)
+                .HasOne(e => e.Backlog)
+                .WithOne(e => e.User)
+                .HasForeignKey<Backlog>(e => e.UserId)
                 .IsRequired(false);
             // Game-Genre many-to-many relationship
             modelBuilder
                 .Entity<Genre>()
-                .HasMany(e => e.games)
-                .WithMany(e => e.genres);
+                .HasMany(e => e.Games)
+                .WithMany(e => e.Genres);
             // Game-Developer many-to-many relationship
             modelBuilder
                 .Entity<Developer>()
-                .HasMany(e => e.games)
-                .WithMany(e => e.developers)
+                .HasMany(e => e.Games)
+                .WithMany(e => e.Developers)
                 .UsingEntity("GameDeveloper");
             // Game-Platform many-to-many relationship
             modelBuilder
                 .Entity<Platform>()
-                .HasMany(e => e.games)
-                .WithMany(e => e.platforms);
+                .HasMany(e => e.Games)
+                .WithMany(e => e.Platforms);
             // Game-Backlog many-to-many relationship
             modelBuilder
                 .Entity<Game>()
-                .HasMany(e => e.backlogs)
-                .WithMany(e => e.games);
+                .HasMany(e => e.Backlogs)
+                .WithMany(e => e.Games);
 
             //generate guids on the database
             modelBuilder
                 .Entity<Game>()
-                .Property(e => e.franchiseId)
+                .Property(e => e.FranchiseId)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Game>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Game>()
-                .Property(e => e.publisherId)
+                .Property(e => e.PublisherId)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Franchise>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Publisher>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Genre>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Developer>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Platform>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Review>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Review>()
-                .Property(e => e.authorId)
+                .Property(e => e.AuthorId)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Backlog>()
-                .Property(e => e.id)
+                .Property(e => e.Id)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<Backlog>()
-                .Property(e => e.userId)
+                .Property(e => e.UserId)
                 .HasDefaultValueSql("gen_random_uuid()");
             modelBuilder
                 .Entity<User>()
@@ -149,7 +149,6 @@ namespace backlogged_api.Data
         public DbSet<Platform> Platforms { get; set; } = default!;
         public DbSet<Genre> Genres { get; set; } = default!;
         public DbSet<Review> Reviews { get; set; } = default!;
-        public DbSet<User> Users { get; set; } = default!;
         public DbSet<Backlog> Backlogs { get; set; } = default!;
     }
 }

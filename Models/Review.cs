@@ -5,13 +5,13 @@ namespace backlogged_api.Models
     public record Review : BaseEntity
     {
         [Range(1, 5)]
-        public int rating { get; set; }
-        public string? details { get; set; }
-        public DateTime createdAt { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        public int Rating { get; set; }
+        public string? Details { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
-        public Guid gameId { get; set; }
+        public Guid GameId { get; set; }
         public Game? game { get; set; }
-        public Guid authorId { get; set; }
-        public User? author { get; set; }
+        public Guid AuthorId { get; set; }
+        public User? Author { get; set; }
     }
 }

@@ -39,8 +39,8 @@ namespace backlogged_api.Controllers
             }
             var genres = await _context.Genres.Select(p => new GenreDto
             {
-                id = p.id,
-                name = p.name
+                id = p.Id,
+                name = p.Name
             }).ToListAsync();
             return Ok(genres);
         }
@@ -63,11 +63,11 @@ namespace backlogged_api.Controllers
             }
 
             var genre = await _context.Genres
-            .Where(w => w.id == id)
+            .Where(w => w.Id == id)
             .Select(s => new GenreDto
             {
-                id = s.id,
-                name = s.name
+                id = s.Id,
+                name = s.Name
             }).FirstOrDefaultAsync();
 
             if (genre == null)
@@ -94,15 +94,15 @@ namespace backlogged_api.Controllers
         public async Task<IActionResult> PutGenre(Guid id, UpdateGenreDto genreDto)
         {
 
-            if (!_context.Genres.Any(a => a.id == id))
+            if (!_context.Genres.Any(a => a.Id == id))
             {
                 return NotFound();
             }
 
             var genre = new Genre
             {
-                id = id,
-                name = genreDto.name
+                Id = id,
+                Name = genreDto.name
             };
             _context.Entry(genre).State = EntityState.Modified;
 
@@ -144,11 +144,11 @@ namespace backlogged_api.Controllers
             }
             var genre = new Genre
             {
-                name = genreDto.name
+                Name = genreDto.name
             };
             _context.Genres.Add(genre);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetGenre), new { id = genre.id }, new GenreDto { id = genre.id, name = genre.name });
+            return CreatedAtAction(nameof(GetGenre), new { id = genre.Id }, new GenreDto { id = genre.Id, name = genre.Name });
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace backlogged_api.Controllers
 
         private bool GenreExists(Guid id)
         {
-            return (_context.Genres?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Genres?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

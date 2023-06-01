@@ -40,8 +40,8 @@ namespace backlogged_api.Controllers
             }
             var publishers = await _context.Publishers.Select(s => new PublisherDto
             {
-                id = s.id,
-                name = s.name,
+                id = s.Id,
+                name = s.Name,
             }).ToListAsync();
 
             return Ok(publishers);
@@ -63,10 +63,10 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
-            var publisher = await _context.Publishers.Where(w => w.id == id).Select(s => new PublisherDto
+            var publisher = await _context.Publishers.Where(w => w.Id == id).Select(s => new PublisherDto
             {
-                id = s.id,
-                name = s.name,
+                id = s.Id,
+                name = s.Name,
             }).FirstOrDefaultAsync();
             if (publisher == null)
             {
@@ -91,12 +91,12 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutPublisher(Guid id, UpdatePublisherDto publisherDto)
         {
-            if (!_context.Publishers.Any(a => a.id == id))
+            if (!_context.Publishers.Any(a => a.Id == id))
             {
                 return NotFound();
             }
 
-            var publisher = new Publisher { name = publisherDto.name, id = id };
+            var publisher = new Publisher { Name = publisherDto.name, Id = id };
 
             _context.Entry(publisher).State = EntityState.Modified;
 
@@ -139,15 +139,15 @@ namespace backlogged_api.Controllers
             }
             var publisher = new Publisher
             {
-                name = publisherDto.name,
+                Name = publisherDto.name,
             };
             _context.Publishers.Add(publisher);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPublisher), new { id = publisher.id }, new
+            return CreatedAtAction(nameof(GetPublisher), new { id = publisher.Id }, new
             {
-                id = publisher.id,
-                name = publisher.name
+                id = publisher.Id,
+                name = publisher.Name
             });
         }
         /// <summary>
@@ -180,7 +180,7 @@ namespace backlogged_api.Controllers
 
         private bool PublisherExists(Guid id)
         {
-            return (_context.Publishers?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Publishers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

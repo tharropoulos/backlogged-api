@@ -2,10 +2,10 @@
 {
     public record Backlog : BaseEntity
     {
-        public required Guid userId { get; set; }
-        public required User user { get; set; }
-        public ICollection<Game>? games { get; set; }
-        public Boolean isVisible { get; set; } = false;
+        public required Guid UserId { get; set; }
+        public required User User { get; set; }
+        public ICollection<Game>? Games { get; set; }
+        public Boolean IsVisible { get; set; } = false;
 
     }
 }

@@ -40,8 +40,8 @@ namespace backlogged_api.Controllers
             }
             var franchises = await _context.Franchises.Select(s => new FranchiseDto
             {
-                id = s.id,
-                name = s.name
+                id = s.Id,
+                name = s.Name
             }).ToListAsync();
 
             return Ok(franchises);
@@ -64,11 +64,11 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
             var franchise = await _context.Franchises
-            .Where(w => w.id == id)
+            .Where(w => w.Id == id)
             .Select(s => new FranchiseDto
             {
-                id = s.id,
-                name = s.name
+                id = s.Id,
+                name = s.Name
             }).FirstOrDefaultAsync();
 
             if (franchise == null)
@@ -93,12 +93,12 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutFranchise(Guid id, UpdateFranchiseDto franchiseDto)
         {
-            if (!_context.Franchises.Any(a => a.id == id))
+            if (!_context.Franchises.Any(a => a.Id == id))
             {
                 return NotFound();
             }
 
-            var franchise = new Franchise { name = franchiseDto.name, id = id };
+            var franchise = new Franchise { Name = franchiseDto.name, Id = id };
             _context.Entry(franchise).State = EntityState.Modified;
 
             try
@@ -138,12 +138,12 @@ namespace backlogged_api.Controllers
             }
             var franchise = new Franchise
             {
-                name = franchiseDto.name
+                Name = franchiseDto.name
             };
             _context.Franchises.Add(franchise);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetFranchise), new { id = franchise.id }, new FranchiseDto { id = franchise.id, name = franchise.name });
+            return CreatedAtAction(nameof(GetFranchise), new { id = franchise.Id }, new FranchiseDto { id = franchise.Id, name = franchise.Name });
         }
         /// <summary>
         /// Deletes a Publisher from the store.
@@ -174,7 +174,7 @@ namespace backlogged_api.Controllers
 
         private bool FranchiseExists(Guid id)
         {
-            return (_context.Franchises?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Franchises?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

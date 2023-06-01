@@ -38,8 +38,8 @@ namespace backlogged_api.Controllers
             }
             var developers = await _context.Developers.Select(s => new DeveloperDto
             {
-                id = s.id,
-                name = s.name
+                id = s.Id,
+                name = s.Name
             }).ToListAsync();
             return Ok(developers);
         }
@@ -60,11 +60,11 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
             var developer = await _context.Developers
-            .Where(w => w.id == id)
+            .Where(w => w.Id == id)
             .Select(s => new DeveloperDto
             {
-                id = s.id,
-                name = s.name
+                id = s.Id,
+                name = s.Name
             }).FirstOrDefaultAsync();
             if (developer == null)
             {
@@ -89,12 +89,12 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutDeveloper(Guid id, UpdateDeveloperDto developerDto)
         {
-            if (!_context.Developers.Any(a => a.id == id))
+            if (!_context.Developers.Any(a => a.Id == id))
             {
                 return NotFound();
             }
 
-            var developer = new Developer { id = id, name = developerDto.name };
+            var developer = new Developer { Id = id, Name = developerDto.name };
             _context.Entry(developer).State = EntityState.Modified;
 
             try
@@ -135,11 +135,11 @@ namespace backlogged_api.Controllers
             }
             var developer = new Developer
             {
-                name = developerDto.name
+                Name = developerDto.name
             };
             _context.Developers.Add(developer);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetDeveloper), new { id = developer.id }, new DeveloperDto { id = developer.id, name = developer.name });
+            return CreatedAtAction(nameof(GetDeveloper), new { id = developer.Id }, new DeveloperDto { id = developer.Id, name = developer.Name });
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace backlogged_api.Controllers
 
         private bool DeveloperExists(Guid id)
         {
-            return (_context.Developers?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Developers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
