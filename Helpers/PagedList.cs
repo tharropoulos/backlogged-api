@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using backlogged_api.Models;
 
 
 namespace backlogged_api.Helpers
 {
+    public enum OrderDirection
+    {
+        Ascending,
+        Descending
+    }
+
+
     public static class PageListBuilder
     {
         public static async Task<PagedList<TEntity>> CreatePagedListAsync<TEntity, TOrder>(IQueryable<TEntity> source,
@@ -15,6 +21,28 @@ namespace backlogged_api.Helpers
             var count = await source.CountAsync();
             var items = await source.OrderBy(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize).Distinct().ToListAsync();
             return new PagedList<TEntity>(items, count, pageNumber, pageSize);
+        }
+
+        public static async Task<PagedList<TEntity>> CreatePagedListAsync<TEntity, TOrder>(IQueryable<TEntity> source,
+                                                                                           Expression<Func<TEntity, TOrder>> orderBy,
+                                                                                           OrderDirection direction,
+                                                                                           int pageNumber,
+                                                                                           int pageSize)
+        {
+            var count = await source.CountAsync();
+            var items = source;
+
+            if (direction == OrderDirection.Ascending)
+            {
+                items.OrderBy(orderBy);
+            }
+            else
+            {
+                items.OrderByDescending(orderBy);
+            }
+
+            var list = await items.Skip((pageNumber - 1) * pageSize).Take(pageSize).Distinct().ToListAsync();
+            return new PagedList<TEntity>(list, count, pageNumber, pageSize);
         }
     }
     public class PagedList<T> : List<T>
