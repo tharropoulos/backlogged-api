@@ -664,8 +664,8 @@ namespace backlogged_api.Controllers
                 return NotFound("Game not found.");
 
             var reviews = await _context.Reviews
-            .Include(i => i.game)
-            .Where(w => w.game.Id == id)
+            .Include(i => i.Game)
+            .Where(w => w.Game.Id == id)
             .Select(s => new ReviewDto
             {
                 AuthorId = s.AuthorId,
