@@ -43,7 +43,7 @@ namespace backlogged_api.Data
             modelBuilder
                 .Entity<Game>()
                 .HasMany(e => e.Reviews)
-                .WithOne(e => e.game)
+                .WithOne(e => e.Game)
                 .HasForeignKey(e => e.GameId)
                 .HasPrincipalKey(e => e.Id);
             //User-Review one-to-many relationship
