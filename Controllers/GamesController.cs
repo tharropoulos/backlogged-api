@@ -41,7 +41,7 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
 
-            var games = await PageListBuilder.CreatePagedListAsync(_context.Games, m => m.title, pagingParams.PageNumber, pagingParams.PageSize);
+            var games = await PageListBuilder.CreatePagedListAsync(_context.Games, m => m.Title, pagingParams.PageNumber, pagingParams.PageSize);
 
             var metadata = new
             {
@@ -57,15 +57,15 @@ namespace backlogged_api.Controllers
 
             var gamesDto = games.Select(s => new GameDto
             {
-                Id = s.id,
-                Rating = s.rating,
-                BackgoundImageUrl = s.backgroundImageUrl,
-                CoverImageUrl = s.coverImageUrl,
-                FranchiseId = s.franchiseId,
-                PublisherId = s.publisherId,
-                Title = s.title,
-                Description = s.description,
-                ReleaseDate = s.releaseDate,
+                Id = s.Id,
+                Rating = s.Rating,
+                BackgoundImageUrl = s.BackgroundImageUrl,
+                CoverImageUrl = s.CoverImageUrl,
+                FranchiseId = s.FranchiseId,
+                PublisherId = s.PublisherId,
+                Title = s.Title,
+                Description = s.Description,
+                ReleaseDate = s.ReleaseDate,
             });
             return Ok(gamesDto);
         }
@@ -88,18 +88,18 @@ namespace backlogged_api.Controllers
             }
 
             var game = await _context.Games
-            .Where(w => w.id == id)
+            .Where(w => w.Id == id)
             .Select(s => new GameDto
             {
-                Id = s.id,
-                Rating = s.rating,
-                BackgoundImageUrl = s.backgroundImageUrl,
-                CoverImageUrl = s.coverImageUrl,
-                FranchiseId = s.franchiseId,
-                PublisherId = s.publisherId,
-                Title = s.title,
-                Description = s.description,
-                ReleaseDate = s.releaseDate,
+                Id = s.Id,
+                Rating = s.Rating,
+                BackgoundImageUrl = s.BackgroundImageUrl,
+                CoverImageUrl = s.CoverImageUrl,
+                FranchiseId = s.FranchiseId,
+                PublisherId = s.PublisherId,
+                Title = s.Title,
+                Description = s.Description,
+                ReleaseDate = s.ReleaseDate,
 
             }).FirstOrDefaultAsync();
 
@@ -122,34 +122,32 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
 
-            Expression<Func<Game, bool>> titleExpression = w => searchParams.Title == null || w.title.Contains(searchParams.Title);
-            Expression<Func<Game, bool>> genreExpression = w => searchParams.GenreIds == null || w.genres.Any(a => searchParams.GenreIds.Contains(a.id));
-            Expression<Func<Game, bool>> platformExpression = w => searchParams.PlatformIds == null || w.platforms.Any(a => searchParams.PlatformIds.Contains(a.id));
-            Expression<Func<Game, bool>> developerExpression = w => searchParams.DeveloperIds == null || w.developers.Any(a => searchParams.DeveloperIds.Contains(a.id));
-            Expression<Func<Game, bool>> publisherExpression = w => searchParams.PublisherIds == null || w.publisherId.HasValue && searchParams.PublisherIds.Contains(w.publisherId.Value);
-            Expression<Func<Game, bool>> franchiseExpression = w => searchParams.FranchiseIds == null || w.franchiseId.HasValue && searchParams.FranchiseIds.Contains(w.franchiseId.Value);
-            Expression<Func<Game, string>> sortExpression = w => searchParams.sortOrder == "asc" ? w.title : null;
+            Expression<Func<Game, bool>> titleExpression = w => searchParams.Title == null || w.Title.Contains(searchParams.Title);
+            Expression<Func<Game, bool>> genreExpression = w => searchParams.GenreIds == null || (w.Genres ?? Enumerable.Empty<Genre>()).Any(a => searchParams.GenreIds.Contains(a.Id));
+            Expression<Func<Game, bool>> platformExpression = w => searchParams.PlatformIds == null || (w.Platforms ?? Enumerable.Empty<Platform>()).Any(a => searchParams.PlatformIds.Contains(a.Id));
+            Expression<Func<Game, bool>> developerExpression = w => searchParams.DeveloperIds == null || (w.Developers ?? Enumerable.Empty<Developer>()).Any(a => searchParams.DeveloperIds.Contains(a.Id));
+            Expression<Func<Game, bool>> publisherExpression = w => searchParams.PublisherIds == null || w.PublisherId.HasValue && searchParams.PublisherIds.Contains(w.PublisherId.Value);
+            Expression<Func<Game, bool>> franchiseExpression = w => searchParams.FranchiseIds == null || w.FranchiseId.HasValue && searchParams.FranchiseIds.Contains(w.FranchiseId.Value);
 
             var games = await PageListBuilder.CreatePagedListAsync(_context.Games
-            .Where(titleExpression)
-            .Where(genreExpression)
-            .Where(platformExpression)
-            .Where(developerExpression)
-            .Where(publisherExpression)
-            .Where(franchiseExpression)
-            .OrderBy(sortExpression)
-            .Select(s => new GameDto
-            {
-                Id = s.id,
-                Rating = s.rating,
-                BackgoundImageUrl = s.backgroundImageUrl,
-                CoverImageUrl = s.coverImageUrl,
-                FranchiseId = s.franchiseId,
-                PublisherId = s.publisherId,
-                Title = s.title,
-                Description = s.description,
-                ReleaseDate = s.releaseDate,
-            }), m => m.Title, pagingParams.PageNumber, pagingParams.PageSize);
+                        .Where(titleExpression)
+                        .Where(genreExpression)
+                        .Where(platformExpression)
+                        .Where(developerExpression)
+                        .Where(publisherExpression)
+                        .Where(franchiseExpression)
+                        .Select(s => new GameDto
+                        {
+                            Id = s.Id,
+                            Rating = s.Rating,
+                            BackgoundImageUrl = s.BackgroundImageUrl,
+                            CoverImageUrl = s.CoverImageUrl,
+                            FranchiseId = s.FranchiseId,
+                            PublisherId = s.PublisherId,
+                            Title = s.Title,
+                            Description = s.Description,
+                            ReleaseDate = s.ReleaseDate,
+                        }), o => o.Title, OrderDirection.Ascending, pagingParams.PageNumber, pagingParams.PageSize);
 
             var metadata = new
             {
@@ -185,19 +183,19 @@ namespace backlogged_api.Controllers
 
             var gameToUpdate = await _context.Games
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (gameToUpdate == null)
             {
                 return NotFound();
             }
 
-            gameToUpdate.franchiseId = gameDto.FranchiseId;
-            gameToUpdate.publisherId = gameDto.PublisherId;
-            gameToUpdate.rating = gameDto.Rating;
-            gameToUpdate.description = gameDto.Description;
-            gameToUpdate.coverImageUrl = gameDto.CoverImageUrl;
-            gameToUpdate.backgroundImageUrl = gameDto.BackgoundImageUrl;
+            gameToUpdate.FranchiseId = gameDto.FranchiseId;
+            gameToUpdate.PublisherId = gameDto.PublisherId;
+            gameToUpdate.Rating = gameDto.Rating;
+            gameToUpdate.Description = gameDto.Description;
+            gameToUpdate.CoverImageUrl = gameDto.CoverImageUrl;
+            gameToUpdate.BackgroundImageUrl = gameDto.BackgoundImageUrl;
 
             _context.Entry(gameToUpdate).State = EntityState.Modified;
 
@@ -237,40 +235,40 @@ namespace backlogged_api.Controllers
             {
                 return Problem("Entity set 'BackloggedDBContext.Game'  is null.");
             }
-            if (!_context.Publishers.Any(p => p.id == gameDto.PublisherId))
+            if (!_context.Publishers.Any(p => p.Id == gameDto.PublisherId))
             {
                 return BadRequest("Publisher does not exist.");
             }
 
-            if (!_context.Franchises.Any(f => f.id == gameDto.FranchiseId))
+            if (!_context.Franchises.Any(f => f.Id == gameDto.FranchiseId))
             {
                 return BadRequest("Franchise does not exist.");
             }
             var game = new Game
             {
-                title = gameDto.Title,
-                rating = gameDto.Rating,
-                description = gameDto.Description,
-                backgroundImageUrl = gameDto.BackgoundImageUrl,
-                coverImageUrl = gameDto.CoverImageUrl,
-                franchiseId = gameDto.FranchiseId,
-                publisherId = gameDto.PublisherId,
+                Title = gameDto.Title,
+                Rating = gameDto.Rating,
+                Description = gameDto.Description,
+                BackgroundImageUrl = gameDto.BackgoundImageUrl,
+                CoverImageUrl = gameDto.CoverImageUrl,
+                FranchiseId = gameDto.FranchiseId,
+                PublisherId = gameDto.PublisherId,
                 // could be redudant, but just in case
-                releaseDate = gameDto.ReleaseDate != DateTime.MinValue ? gameDto.ReleaseDate : DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
+                ReleaseDate = gameDto.ReleaseDate != DateTime.MinValue ? gameDto.ReleaseDate : DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
             };
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetGame), new { id = game.id }, new GameDto
+            return CreatedAtAction(nameof(GetGame), new { id = game.Id }, new GameDto
             {
-                Id = game.id,
-                Title = game.title,
-                Rating = game.rating,
-                Description = game.description,
-                ReleaseDate = game.releaseDate,
-                PublisherId = game.publisherId,
-                FranchiseId = game.franchiseId,
-                CoverImageUrl = game.coverImageUrl,
-                BackgoundImageUrl = game.backgroundImageUrl
+                Id = game.Id,
+                Title = game.Title,
+                Rating = game.Rating,
+                Description = game.Description,
+                ReleaseDate = game.ReleaseDate,
+                PublisherId = game.PublisherId,
+                FranchiseId = game.FranchiseId,
+                CoverImageUrl = game.CoverImageUrl,
+                BackgoundImageUrl = game.BackgroundImageUrl
             });
         }
 
@@ -320,14 +318,14 @@ namespace backlogged_api.Controllers
             }
 
             var developers = await PageListBuilder.CreatePagedListAsync(_context.Games
-                .Include(i => i.developers)
-                .Where(w => w.id == id)
-                .SelectMany(s => s.developers), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
+                .Include(i => i.Developers)
+                .Where(w => w.Id == id)
+                .SelectMany(s => s.Developers ?? Enumerable.Empty<Developer>()), m => m.Name, pagingParams.PageNumber, pagingParams.PageSize);
 
             var developerDtos = developers.Select(s => new DeveloperDto
             {
-                id = s.id,
-                name = s.name,
+                id = s.Id,
+                name = s.Name,
             });
 
             var metadata = new
@@ -362,33 +360,35 @@ namespace backlogged_api.Controllers
                 return NotFound();
 
             var game = await _context.Games
-                .Include(i => i.developers)
-                .SingleOrDefaultAsync(m => m.id == id);
+                .Include(i => i.Developers)
+                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (game == null)
                 return NotFound("Game not Found");
 
-            game.developers = new List<Developer>();
+            game.Developers = new List<Developer>();
 
-            if (developersId.DeveloperIds.GroupBy(g => g).Any(g => g.Count() > 1))
+            if ((developersId?.DeveloperIds ?? Enumerable.Empty<Guid>()).GroupBy(g => g).Any(g => g.Count() > 1))
                 return BadRequest("Duplicate developer ids.");
 
 
 
-            if (developersId.DeveloperIds.Count() == 0)
+            if ((developersId?.DeveloperIds ?? Enumerable.Empty<Guid>()).Count() == 0)
                 _context.Entry(game).State = EntityState.Modified;
 
             else
             {
-                // TODO: Scuffed, many warnings for possible null references
-                var developers = await _context.Developers.Where(w => developersId.DeveloperIds.Contains(w.id)).ToListAsync();
+                // Declare devIds here to avoid errors in query
+                var devIds = developersId?.DeveloperIds ?? Enumerable.Empty<Guid>();
+
+                var developers = await _context.Developers.Where(w => devIds.Contains(w.Id)).ToListAsync();
 
 
-                if (developers.Count != developersId.DeveloperIds.Count() || developers.Count == 0)
+                if (developers.Count != devIds.Count() || developers.Count == 0)
                     return BadRequest("Developer does not exist.");
 
                 foreach (var dev in developers)
-                    game.developers.Add(dev);
+                    game.Developers.Add(dev);
 
                 _context.Entry(game).State = EntityState.Modified;
             }
@@ -423,14 +423,14 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
             var genres = await PageListBuilder.CreatePagedListAsync(_context.Games
-                .Include(i => i.genres)
-                .Where(w => w.id == id)
-                .SelectMany(s => s.genres), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
+                .Include(i => i.Genres)
+                .Where(w => w.Id == id)
+                .SelectMany(s => (s.Genres ?? Enumerable.Empty<Genre>())), m => m.Name, pagingParams.PageNumber, pagingParams.PageSize);
 
             var genreDtos = genres.Select(s => new DeveloperDto
             {
-                id = s.id,
-                name = s.name,
+                id = s.Id,
+                name = s.Name,
             });
 
             var metadata = new
@@ -465,33 +465,33 @@ namespace backlogged_api.Controllers
                 return NotFound();
 
             var game = await _context.Games
-                .Include(i => i.genres)
-                .SingleOrDefaultAsync(m => m.id == id);
+                .Include(i => i.Genres)
+                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (game == null)
                 return NotFound("Game not Found");
 
-            game.genres = new List<Genre>();
+            game.Genres = new List<Genre>();
 
-            if (genreIds.GenreIds.GroupBy(g => g).Any(g => g.Count() > 1))
+            if ((genreIds.GenreIds ?? Enumerable.Empty<Guid>()).GroupBy(g => g).Any(g => g.Count() > 1))
                 return BadRequest("Duplicate genre ids.");
 
 
 
-            if (genreIds.GenreIds.Count() == 0)
+            if ((genreIds.GenreIds ?? Enumerable.Empty<Guid>()).Count() == 0)
                 _context.Entry(game).State = EntityState.Modified;
 
             else
             {
                 // TODO: Scuffed, many warnings for possible null references
-                var genres = await _context.Genres.Where(w => genreIds.GenreIds.Contains(w.id)).ToListAsync();
+                var genres = await _context.Genres.Where(w => (genreIds.GenreIds ?? Enumerable.Empty<Guid>()).Contains(w.Id)).ToListAsync();
 
 
-                if (genres.Count() != genreIds.GenreIds.Count() || genreIds.GenreIds.Count() == 0)
+                if (genres.Count() != (genreIds.GenreIds ?? Enumerable.Empty<Guid>()).Count() || (genreIds.GenreIds ?? Enumerable.Empty<Guid>()).Count() == 0)
                     return BadRequest("Genre does not exist.");
 
                 foreach (var plat in genres)
-                    game.genres.Add(plat);
+                    game.Genres.Add(plat);
 
                 _context.Entry(game).State = EntityState.Modified;
             }
@@ -526,14 +526,14 @@ namespace backlogged_api.Controllers
                 return NotFound();
             }
             var platforms = await PageListBuilder.CreatePagedListAsync(_context.Games
-                .Include(i => i.platforms)
-                .Where(w => w.id == id)
-                .SelectMany(s => s.platforms), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
+                .Include(i => i.Platforms)
+                .Where(w => w.Id == id)
+                .SelectMany(s => (s.Platforms ?? Enumerable.Empty<Platform>())), m => m.Name, pagingParams.PageNumber, pagingParams.PageSize);
 
             var platformDtos = platforms.Select(s => new DeveloperDto
             {
-                id = s.id,
-                name = s.name,
+                id = s.Id,
+                name = s.Name,
             });
 
             var metadata = new
@@ -568,33 +568,33 @@ namespace backlogged_api.Controllers
                 return NotFound();
 
             var game = await _context.Games
-                .Include(i => i.platforms)
-                .SingleOrDefaultAsync(m => m.id == id);
+                .Include(i => i.Platforms)
+                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (game == null)
                 return NotFound("Game not Found");
 
-            game.platforms = new List<Platform>();
+            game.Platforms = new List<Platform>();
 
-            if (platformIds.PlatformIds.GroupBy(g => g).Any(g => g.Count() > 1))
+            if ((platformIds.PlatformIds ?? Enumerable.Empty<Guid>()).GroupBy(g => g).Any(g => g.Count() > 1))
                 return BadRequest("Duplicate platform ids.");
 
 
 
-            if (platformIds.PlatformIds.Count() == 0)
+            if ((platformIds.PlatformIds ?? Enumerable.Empty<Guid>()).Count() == 0)
                 _context.Entry(game).State = EntityState.Modified;
 
             else
             {
                 // TODO: Scuffed, many warnings for possible null references
-                var platforms = await _context.Platforms.Where(w => platformIds.PlatformIds.Contains(w.id)).ToListAsync();
+                var platforms = await _context.Platforms.Where(w => (platformIds.PlatformIds ?? Enumerable.Empty<Guid>()).Contains(w.Id)).ToListAsync();
 
 
-                if (platforms.Count != platformIds.PlatformIds.Count() || platformIds.PlatformIds.Count() == 0)
+                if (platforms.Count != (platformIds.PlatformIds ?? Enumerable.Empty<Guid>()).Count() || (platformIds.PlatformIds ?? Enumerable.Empty<Guid>()).Count() == 0)
                     return BadRequest("Platform does not exist.");
 
                 foreach (var plat in platforms)
-                    game.platforms.Add(plat);
+                    game.Platforms.Add(plat);
 
                 _context.Entry(game).State = EntityState.Modified;
             }
@@ -627,15 +627,15 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
-            if (!_context.Games.Any(a => a.id == id))
+            if (!_context.Games.Any(a => a.Id == id))
                 return NotFound("Game not found.");
 
-            var franchise = await _context.Games.Include(i => i.franchise)
-            .Where(w => w.id == id)
+            var franchise = await _context.Games.Include(i => i.Franchise)
+            .Where(w => w.Id == id)
             .Select(s => new FranchiseDto
             {
-                id = s.franchiseId.Value,
-                name = s.franchise.name
+                id = s.FranchiseId.HasValue ? s.FranchiseId.Value : Guid.Empty,
+                name = s.Franchise.Name
             }).FirstOrDefaultAsync();
 
             return Ok(franchise);
@@ -665,21 +665,21 @@ namespace backlogged_api.Controllers
 
             var reviews = await _context.Reviews
             .Include(i => i.game)
-            .Where(w => w.game.id == id)
+            .Where(w => (w.game.Id) == id)
             .Select(s => new ReviewDto
             {
-                AuthorId = s.authorId,
-                GameId = s.gameId,
-                Id = s.id,
-                Rating = s.rating,
-                Details = s.details
+                AuthorId = s.AuthorId,
+                GameId = s.GameId,
+                Id = s.Id,
+                Rating = s.Rating,
+                Details = s.Details
             }).ToListAsync();
 
             return Ok(reviews);
         }
         private bool GameExists(Guid id)
         {
-            return (_context.Games?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Games?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
