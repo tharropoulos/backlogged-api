@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace backlogged_api.Data
 {
-    // Add Identity Db Context in order to use ASP.NET Identity
+    // Add Identity Db Context in order to use ASP.NET 
     public class BackloggedDBContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         protected readonly IConfiguration Configuration;
