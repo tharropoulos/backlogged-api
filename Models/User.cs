@@ -1,4 +1,3 @@
-using backlogged_api.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace backlogged_api.Models
