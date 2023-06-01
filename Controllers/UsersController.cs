@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using backlogged_api.Helpers;
 using backlogged_api.DTO.Backlog;
 using backlogged_api.DTO.Game;
+using Newtonsoft.Json;
+using backlogged_api.DTO.Review;
 
 namespace backlogged_api.Controllers
 {
@@ -155,7 +157,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Returns the user's email</response>
         /// <response code="404">User not found</response>
         // GET: api/Users/5/email
-        [HttpPatch("{id}/email")]
+        [HttpPatch("{id}/Email")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -206,7 +208,7 @@ namespace backlogged_api.Controllers
         /// <response code="404">User not found</response>
         /// <response code="400">Bad request</response>
         // GET: api/Users/5/email
-        [HttpPatch("{id}/password")]
+        [HttpPatch("{id}/Password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -351,6 +353,53 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
+        /// Gets the reviews for a user.
+        /// </summary>
+        /// <returns>backlog</returns>
+        /// <response code="200">Reviews</response>
+        /// <response code="404">Backlog not found</response>
+        // Get: api/Backlogs/uuid/Reviews
+        [HttpGet("{id}/Reviews")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews(Guid id, [FromQuery] PagingParams pagingParams)
+        {
+            if (_context.Backlogs == null)
+            {
+                return NotFound();
+            }
+
+            var reviews = await PageListBuilder.CreatePagedListAsync(_context.Users
+                .Include(i => i.Reviews)
+                .Where(w => w.Id == id)
+                .SelectMany(s => s.Reviews), m => m.Rating, pagingParams.PageNumber, pagingParams.PageSize);
+
+            var reviewDtos = reviews.Select(s => new ReviewDto
+            {
+                Id = s.Id,
+                GameId = s.GameId,
+                AuthorId = s.AuthorId,
+                Rating = s.Rating,
+                Details = s.Details,
+                CreatedAt = s.CreatedAt,
+            });
+
+            var metadata = new
+            {
+                reviews.TotalCount,
+                reviews.PageSize,
+                reviews.CurrentPage,
+                reviews.TotalPages,
+                reviews.HasNext,
+                reviews.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(reviewDtos);
+        }
+
+        /// <summary>
         /// Deletes a user from the store.
         /// </summary>
         /// <returns>User</returns>
@@ -372,8 +421,17 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
+            var backlog = await _context.Backlogs.FindAsync(user.BacklogId);
 
+            if (backlog == null)
+            {
+                return NotFound("Backlog not found.");
+            }
+
+            _context.Backlogs.Remove(backlog);
             await _userManager.DeleteAsync(user);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
