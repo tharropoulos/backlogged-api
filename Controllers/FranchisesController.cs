@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using backlogged_api.Data;
 using backlogged_api.Models;
 using backlogged_api.DTO.Franchise;
+using backlogged_api.Helpers;
+using Newtonsoft.Json;
 
 namespace backlogged_api.Controllers
 {
@@ -32,17 +34,29 @@ namespace backlogged_api.Controllers
         [MapToApiVersion("1.0")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<FranchiseDto>>> GetAllFranchises()
+        public async Task<ActionResult<IEnumerable<FranchiseDto>>> GetAllFranchises([FromQuery] PagingParams pagingParams)
         {
             if (_context.Franchises == null)
             {
                 return NotFound();
             }
-            var franchises = await _context.Franchises.Select(s => new FranchiseDto
+            var franchises = await PageListBuilder.CreatePagedListAsync(_context.Franchises.Select(s => new FranchiseDto
             {
                 id = s.Id,
                 name = s.Name
-            }).ToListAsync();
+            }), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
+
+            var metadata = new
+            {
+                franchises.TotalCount,
+                franchises.PageSize,
+                franchises.CurrentPage,
+                franchises.TotalPages,
+                franchises.HasNext,
+                franchises.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
             return Ok(franchises);
         }
