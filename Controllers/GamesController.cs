@@ -11,6 +11,7 @@ using backlogged_api.DTO.Review;
 using backlogged_api.Helpers;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
+using backlogged_api.DTO.Publisher;
 
 namespace backlogged_api.Controllers
 {
@@ -655,6 +656,40 @@ namespace backlogged_api.Controllers
             }).FirstOrDefaultAsync();
 
             return Ok(franchise);
+
+
+        }
+
+        /// <summary>
+        /// Gets the publisher for a game.
+        /// </summary>
+        /// <returns>game</returns>
+        /// <response code="200">Publisher</response>
+        /// <response code="404">Game not found</response>
+        // Get: api/Games/uuid/Publisher
+        [HttpGet("{id}/Publisher")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FranchiseDto>> GetPublisher(Guid id)
+        {
+            if (_context.Games == null)
+            {
+                return NotFound();
+            }
+            if (!GameExists(id))
+            {
+                return NotFound("Game not Found");
+            }
+
+            var publisher = await _context.Games.Include(i => i.Publisher)
+            .Where(w => w.Id == id)
+            .Select(s => new PublisherDto
+            {
+                id = s.PublisherId.HasValue ? s.FranchiseId.Value : Guid.Empty,
+                name = s.Publisher.Name
+            }).FirstOrDefaultAsync();
+
+            return Ok(publisher);
 
 
         }
