@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using backlogged_api.Data;
 using backlogged_api.Models;
 using backlogged_api.DTO.Developer;
+using backlogged_api.Helpers;
+using Newtonsoft.Json;
 
 namespace backlogged_api.Controllers
 {
@@ -25,17 +27,29 @@ namespace backlogged_api.Controllers
         // GET: api/Developers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<DeveloperDto>>> GetAllDevelopers()
+        public async Task<ActionResult<IEnumerable<DeveloperDto>>> GetAllDevelopers([FromQuery] PagingParams pagingParams)
         {
             if (_context.Developers == null)
             {
                 return NotFound();
             }
-            var developers = await _context.Developers.Select(s => new DeveloperDto
+            var developers = await PageListBuilder.CreatePagedListAsync(_context.Developers.Select(s => new DeveloperDto
             {
                 id = s.Id,
                 name = s.Name
-            }).ToListAsync();
+            }), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
+            var metadata = new
+            {
+                developers.TotalCount,
+                developers.PageSize,
+                developers.CurrentPage,
+                developers.TotalPages,
+                developers.HasNext,
+                developers.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
             return Ok(developers);
         }
         /// <summary>
