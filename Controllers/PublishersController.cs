@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using backlogged_api.Data;
 using backlogged_api.Models;
 using backlogged_api.DTO.Publisher;
+using backlogged_api.Helpers;
 
 namespace backlogged_api.Controllers
 {
@@ -32,17 +33,26 @@ namespace backlogged_api.Controllers
         [MapToApiVersion("1.0")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<PublisherDto>>> GetAllPublishers()
+        public async Task<ActionResult<IEnumerable<PublisherDto>>> GetAllPublishers([FromQuery] PagingParams pagingParams)
         {
             if (_context.Publishers == null)
             {
                 return NotFound();
             }
-            var publishers = await _context.Publishers.Select(s => new PublisherDto
+            var publishers = await PageListBuilder.CreatePagedListAsync(_context.Publishers.Select(s => new PublisherDto
             {
                 id = s.Id,
-                name = s.Name,
-            }).ToListAsync();
+                name = s.Name
+            }), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
+            var metadata = new
+            {
+                publishers.TotalCount,
+                publishers.PageSize,
+                publishers.CurrentPage,
+                publishers.TotalPages,
+                publishers.HasNext,
+                publishers.HasPrevious
+            };
 
             return Ok(publishers);
         }
