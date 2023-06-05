@@ -653,7 +653,7 @@ namespace backlogged_api.Controllers
         [HttpGet("{id}/Reviews")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews(Guid id)
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews(Guid id, [FromQuery] PagingParams pagingParams)
         {
             if (_context.Games == null)
             {
@@ -663,17 +663,29 @@ namespace backlogged_api.Controllers
             if (!GameExists(id))
                 return NotFound("Game not found.");
 
-            var reviews = await _context.Reviews
-            .Include(i => i.Game)
-            .Where(w => w.Game.Id == id)
-            .Select(s => new ReviewDto
+            var reviews = await PageListBuilder.CreatePagedListAsync(_context.Reviews
+                .Include(i => i.Game)
+                .Where(w => w.Game.Id == id)
+                .Select(s => new ReviewDto
+                {
+                    AuthorId = s.AuthorId,
+                    GameId = s.GameId,
+                    Id = s.Id,
+                    Rating = s.Rating,
+                    Details = s.Details
+                }), m => m.Id, pagingParams.PageNumber, pagingParams.PageSize);
+
+            var metadata = new
             {
-                AuthorId = s.AuthorId,
-                GameId = s.GameId,
-                Id = s.Id,
-                Rating = s.Rating,
-                Details = s.Details
-            }).ToListAsync();
+                reviews.TotalCount,
+                reviews.PageSize,
+                reviews.CurrentPage,
+                reviews.TotalPages,
+                reviews.HasNext,
+                reviews.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
             return Ok(reviews);
         }
