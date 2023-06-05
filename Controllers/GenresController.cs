@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using backlogged_api.Data;
 using backlogged_api.Models;
 using backlogged_api.DTO.Genre;
+using Newtonsoft.Json;
+using backlogged_api.Helpers;
 
 namespace backlogged_api.Controllers
 {
@@ -31,17 +33,29 @@ namespace backlogged_api.Controllers
         // GET: api/Genres
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<GenreDto>>> GetAllGenres()
+        public async Task<ActionResult<IEnumerable<GenreDto>>> GetAllGenres([FromQuery] PagingParams pagingParams)
         {
             if (_context.Genres == null)
             {
                 return NotFound();
             }
-            var genres = await _context.Genres.Select(p => new GenreDto
+            var genres = await PageListBuilder.CreatePagedListAsync(_context.Genres.Select(s => new GenreDto
             {
-                id = p.Id,
-                name = p.Name
-            }).ToListAsync();
+                id = s.Id,
+                name = s.Name
+            }), m => m.name, pagingParams.PageNumber, pagingParams.PageSize);
+
+            var metadata = new
+            {
+                genres.TotalCount,
+                genres.PageSize,
+                genres.CurrentPage,
+                genres.TotalPages,
+                genres.HasNext,
+                genres.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(genres);
         }
 
