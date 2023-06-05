@@ -10,6 +10,8 @@ using backlogged_api.Data;
 using backlogged_api.Models;
 using backlogged_api.DTO.Publisher;
 using backlogged_api.Helpers;
+using backlogged_api.DTO.Game;
+using Newtonsoft.Json;
 
 namespace backlogged_api.Controllers
 {
@@ -186,6 +188,52 @@ namespace backlogged_api.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Gets the games for a backlog.
+        /// </summary>
+        /// <returns>backlog</returns>
+        /// <response code="200">Games</response>
+        /// <response code="404">Backlog not found</response>
+        // Get: api/Backlogs/uuid/Games
+        [HttpGet("{id}/Games")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<GameDto>>> GetGames(Guid id, [FromQuery] PagingParams pagingParams)
+        {
+            if (_context.Publishers == null)
+            {
+                return NotFound();
+            }
+
+            var games = await PageListBuilder.CreatePagedListAsync(_context.Games.Where(w => w.PublisherId == id).Select(s => new GameDto
+            {
+                Title = s.Title,
+                BackgoundImageUrl = s.BackgroundImageUrl,
+                Id = s.Id,
+                ReleaseDate = s.ReleaseDate,
+                CoverImageUrl = s.CoverImageUrl,
+                Description = s.Description,
+                FranchiseId = s.FranchiseId,
+                PublisherId = s.PublisherId,
+                Rating = s.Rating,
+            }), m => m.Title, pagingParams.PageNumber, pagingParams.PageSize);
+
+
+            var metadata = new
+            {
+                games.TotalCount,
+                games.PageSize,
+                games.CurrentPage,
+                games.TotalPages,
+                games.HasNext,
+                games.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(games);
         }
 
         private bool PublisherExists(Guid id)
