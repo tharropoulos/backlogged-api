@@ -84,7 +84,7 @@ namespace backlogged_api.Controllers
         {
             if (_context.Games == null)
             {
-                return NotFound();
+                return NotFound("No games found.");
             }
 
             var game = await _context.Games
@@ -105,7 +105,7 @@ namespace backlogged_api.Controllers
 
             if (game == null)
             {
-                return NotFound();
+                return NotFound("No game found.");
             }
 
             return Ok(game);
@@ -187,7 +187,7 @@ namespace backlogged_api.Controllers
 
             if (gameToUpdate == null)
             {
-                return NotFound();
+                return NotFound("No game found.");
             }
 
             gameToUpdate.FranchiseId = gameDto.FranchiseId;
@@ -316,6 +316,10 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
+            if (!_context.Games.Any(a => a.Id == id))
+            {
+                return NotFound("Game not found.");
+            }
 
             var developers = await PageListBuilder.CreatePagedListAsync(_context.Games
                 .Include(i => i.Developers)
@@ -422,6 +426,10 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
+            if (!GameExists(id))
+            {
+                return NotFound("Game not found.");
+            }
             var genres = await PageListBuilder.CreatePagedListAsync(_context.Games
                 .Include(i => i.Genres)
                 .Where(w => w.Id == id)
@@ -525,6 +533,12 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
+
+            if (!GameExists(id))
+            {
+                return NotFound("Game not Found");
+            }
+
             var platforms = await PageListBuilder.CreatePagedListAsync(_context.Games
                 .Include(i => i.Platforms)
                 .Where(w => w.Id == id)
@@ -627,8 +641,10 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
-            if (!_context.Games.Any(a => a.Id == id))
-                return NotFound("Game not found.");
+            if (!GameExists(id))
+            {
+                return NotFound("Game not Found");
+            }
 
             var franchise = await _context.Games.Include(i => i.Franchise)
             .Where(w => w.Id == id)
