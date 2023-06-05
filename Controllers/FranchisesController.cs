@@ -10,6 +10,7 @@ using backlogged_api.Models;
 using backlogged_api.DTO.Franchise;
 using backlogged_api.Helpers;
 using Newtonsoft.Json;
+using backlogged_api.DTO.Game;
 
 namespace backlogged_api.Controllers
 {
@@ -186,6 +187,51 @@ namespace backlogged_api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Gets the games for a Franchise.
+        /// </summary>
+        /// <returns>backlog</returns>
+        /// <response code="200">Games</response>
+        /// <response code="404">Franchise not found</response>
+        // Get: api/franchise/uuid/Games
+        [HttpGet("{id}/Games")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<GameDto>>> GetGames(Guid id, [FromQuery] PagingParams pagingParams)
+        {
+            if (_context.Publishers == null)
+            {
+                return NotFound();
+            }
+
+            var games = await PageListBuilder.CreatePagedListAsync(_context.Games.Where(w => w.FranchiseId == id).Select(s => new GameDto
+            {
+                Title = s.Title,
+                BackgoundImageUrl = s.BackgroundImageUrl,
+                Id = s.Id,
+                ReleaseDate = s.ReleaseDate,
+                CoverImageUrl = s.CoverImageUrl,
+                Description = s.Description,
+                FranchiseId = s.FranchiseId,
+                PublisherId = s.PublisherId,
+                Rating = s.Rating,
+            }), m => m.Title, pagingParams.PageNumber, pagingParams.PageSize);
+
+
+            var metadata = new
+            {
+                games.TotalCount,
+                games.PageSize,
+                games.CurrentPage,
+                games.TotalPages,
+                games.HasNext,
+                games.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(games);
+        }
         private bool FranchiseExists(Guid id)
         {
             return (_context.Franchises?.Any(e => e.Id == id)).GetValueOrDefault();
