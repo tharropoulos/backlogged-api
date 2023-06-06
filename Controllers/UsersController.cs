@@ -10,6 +10,10 @@ using backlogged_api.DTO.Backlog;
 using backlogged_api.DTO.Game;
 using Newtonsoft.Json;
 using backlogged_api.DTO.Review;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace backlogged_api.Controllers
 {
@@ -21,12 +25,14 @@ namespace backlogged_api.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly BackloggedDBContext _context;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(BackloggedDBContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public UsersController(BackloggedDBContext context, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -139,17 +145,60 @@ namespace backlogged_api.Controllers
             {
                 return NotFound();
             }
-            var result = await _signInManager.PasswordSignInAsync(user, loginUserDto.Password, false, false);
+            var res = await _userManager.CheckPasswordAsync(user, loginUserDto.Password);
 
-            if (!result.Succeeded)
+            if (res == true)
+            {
+                var token = await CreateTokenAsync(user);
+                return Ok(new { token });
+            }
+            else
             {
                 return BadRequest("Password is incorrect.");
             }
-
-            return Created("Logged in", user);
         }
 
+        private async Task<List<Claim>> GetClaims(User user)
+        {
+            var claims = new List<Claim>(){
+                new Claim(ClaimTypes.Name, user.UserName!),
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            return claims;
 
+        }
+        private async Task<string> CreateTokenAsync(User user)
+        {
+            var signingCredentials = GetSigningCredentials();
+            var claims = await GetClaims(user);
+            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return token;
+        }
+        private SigningCredentials GetSigningCredentials()
+        {
+            var jwtConfig = _configuration.GetSection("JwtSettings");
+            var key = Encoding.UTF8.GetBytes(jwtConfig["Key"]!);
+            var secret = new SymmetricSecurityKey(key);
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+        }
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        {
+            var jwtSettings = _configuration.GetSection("JwtSettings");
+            var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+            var token = new JwtSecurityToken(
+                issuer: jwtSettings["Issuer"],
+                audience: jwtSettings["Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(5),
+                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+            );
+            return token;
+        }
         /// <summary>
         /// Updates a user's email based on their id.
         /// </summary>
