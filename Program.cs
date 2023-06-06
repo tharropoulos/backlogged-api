@@ -35,7 +35,7 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]!))
     };
 });
-
+builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 // Add PostgreSQL support
 builder.Services.AddDbContext<BackloggedDBContext>(options =>
