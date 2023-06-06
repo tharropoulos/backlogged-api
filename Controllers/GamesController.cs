@@ -20,6 +20,7 @@ namespace backlogged_api.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class GamesController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
@@ -36,7 +37,6 @@ namespace backlogged_api.Controllers
         /// <response code="200">Returns the games correctly</response>
         // GET: api/Games
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<GameDto>>> GetAllGames([FromQuery] PagingParams pagingParams)
         {
