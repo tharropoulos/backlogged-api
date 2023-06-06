@@ -8,7 +8,9 @@ ARG PGPASSWORD
 ARG PGPORT
 ARG PGUSER
 ARG PGDATABASE
-
+ARG JWT_AUDIENCE
+ARG JWT_ISSUER
+ARG JWT_SECRET
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
@@ -27,6 +29,9 @@ FROM build AS publish
 RUN dotnet publish "backlogged-api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+ENV "JwtSettings__Audience"="${JWT_AUDIENCE}"
+ENV "JwtSettings__Issuer"="${JWT_ISSUER}"
+ENV "JwtSettings__Key"="${JWT_SECRET}"
 ENV "ConnectionStrings__DefaultConnection"="Host=${PGHOST};Port=${PGPORT};Username=${PGUSER};Password=${PGPASSWORD};Database=${PGDATABASE}"
 WORKDIR /app
 COPY --from=publish /app/publish .
