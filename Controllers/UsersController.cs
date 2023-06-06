@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backlogged_api.Controllers
 {
@@ -43,6 +44,7 @@ namespace backlogged_api.Controllers
         // GET: api/Users
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] PagingParams pagingParams)
         {
             if (_context.Users == null)
@@ -94,6 +96,7 @@ namespace backlogged_api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<UserDto>> GetUser(Guid id)
         {
             if (_context.Users == null)
@@ -132,6 +135,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
         public async Task<IActionResult> LoginUser([FromBody] LoginUserDto loginUserDto)
         {
 
@@ -210,6 +214,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> PatchEmail(Guid id, UpdateEmailDto emailDto)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -261,6 +266,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> PatchPassword(Guid id, UpdatePasswordDto passwordDto)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -310,6 +316,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> PatchUser(Guid id, UpdateUserDto userDto)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -358,6 +365,7 @@ namespace backlogged_api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDto>> PostUser(CreateUserDto userDto)
         {
             if (!ModelState.IsValid)
@@ -398,7 +406,7 @@ namespace backlogged_api.Controllers
             user.BacklogId = backlog.Id;
             _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Created("", userDto);
+            return Created("", user);
         }
 
         /// <summary>
@@ -411,6 +419,7 @@ namespace backlogged_api.Controllers
         [HttpGet("{id}/Reviews")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews(Guid id, [FromQuery] PagingParams pagingParams)
         {
             if (_context.Backlogs == null)
@@ -458,6 +467,7 @@ namespace backlogged_api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             if (_context.Users == null)
@@ -493,6 +503,7 @@ namespace backlogged_api.Controllers
         // GET: api/Users
         [HttpGet("{id}/backlog")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUserBacklog(Guid id)
         {
             if (_context.Users == null)
