@@ -12,12 +12,14 @@ using backlogged_api.Helpers;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using backlogged_api.DTO.Game;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backlogged_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class BacklogsController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
