@@ -12,6 +12,8 @@ using backlogged_api.Helpers;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using backlogged_api.DTO.Publisher;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace backlogged_api.Controllers
 {
@@ -34,6 +36,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Returns the games correctly</response>
         // GET: api/Games
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<GameDto>>> GetAllGames([FromQuery] PagingParams pagingParams)
         {
