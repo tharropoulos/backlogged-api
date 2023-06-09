@@ -141,7 +141,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Adds a new platform to the store.
+        /// Adds a new platform to Backlogged.
         /// </summary>
         /// <returns>platform</returns>
         /// <response code="201">Returns the Platform</response>
@@ -167,7 +167,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a Platform from the store.
+        /// Deletes a Platform from Backlogged.
         /// </summary>
         /// <returns>platform</returns>
         /// <response code="204">platform deleted, no response</response>
