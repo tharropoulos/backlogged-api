@@ -19,11 +19,11 @@ namespace backlogged_api.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class GenresController : ControllerBase
+    public class GenreController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
 
-        public GenresController(BackloggedDBContext context)
+        public GenreController(BackloggedDBContext context)
         {
             _context = context;
         }
