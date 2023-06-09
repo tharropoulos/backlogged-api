@@ -20,11 +20,11 @@ namespace backlogged_api.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class PublishersController : ControllerBase
+    public class PublisherController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
 
-        public PublishersController(BackloggedDBContext context)
+        public PublisherController(BackloggedDBContext context)
         {
             _context = context;
         }
