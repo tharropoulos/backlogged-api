@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,11 +19,11 @@ namespace backlogged_api.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class FranchisesController : ControllerBase
+    public class FranchiseController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
 
-        public FranchisesController(BackloggedDBContext context)
+        public FranchiseController(BackloggedDBContext context)
         {
             _context = context;
         }
