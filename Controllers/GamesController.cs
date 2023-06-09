@@ -311,7 +311,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Developers</response>
         /// <response code="404">Game not found</response>
         // Get: api/Games/uuid/Developers
-        [HttpGet("{id}/Developers")]
+        [HttpGet("{id}/Developer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<DeveloperDto>>> GetDevelopers(Guid id, [FromQuery] PagingParams pagingParams)
@@ -358,7 +358,7 @@ namespace backlogged_api.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="404">game not found</response>
         // PUT: api/Games/5
-        [HttpPut("{id}/Developers")]
+        [HttpPut("{id}/Developer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -421,7 +421,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Genres</response>
         /// <response code="404">Game not found</response>
         // Get: api/Games/uuid/Genres
-        [HttpGet("{id}/Genres")]
+        [HttpGet("{id}/Genre")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<GenreDto>>> GetGenres(Guid id, [FromQuery] PagingParams pagingParams)
@@ -467,7 +467,7 @@ namespace backlogged_api.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="404">game not found</response>
         // PUT: api/Games/5
-        [HttpPut("{id}/Genres")]
+        [HttpPut("{id}/Genre")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -528,7 +528,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Platforms</response>
         /// <response code="404">Game not found</response>
         // Get: api/Games/uuid/Platforms
-        [HttpGet("{id}/Platforms")]
+        [HttpGet("{id}/Platform")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<PlatformDto>>> GetPlatforms(Guid id, [FromQuery] PagingParams pagingParams)
@@ -576,7 +576,7 @@ namespace backlogged_api.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="404">game not found</response>
         // PUT: api/Games/5
-        [HttpPut("{id}/Platforms")]
+        [HttpPut("{id}/Platform")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -704,7 +704,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Reviews</response>
         /// <response code="404">Game not found</response>
         // Get: api/Games/uuid/Developers
-        [HttpGet("{id}/Reviews")]
+        [HttpGet("{id}/Review")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews(Guid id, [FromQuery] PagingParams pagingParams)
