@@ -115,6 +115,13 @@ namespace backlogged_api.Controllers
             return Ok(game);
         }
 
+        /// <summary>
+        /// Gets all games based on the search parameters.
+        /// </summary>
+        /// <returns>games</returns>
+        /// <response code="200">Returns the Games</response>
+        /// <response code="404">games not found</response>
+        // POST: api/Games/search
         [HttpPost("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
