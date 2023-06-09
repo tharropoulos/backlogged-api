@@ -26,10 +26,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets all reviews.
+        /// Gets all Reviews.
         /// </summary>
-        /// <returns>All reviews</returns>
-        /// <response code="200">Returns the reviews correctly</response>
+        /// <returns>All Reviews</returns>
+        /// <response code="200">Returns the Reviews correctly</response>
         // GET: api/Reviews
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -53,10 +53,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a review based on its' id.
+        /// Gets a Review based on its' id.
         /// </summary>
         /// <returns>review</returns>
-        /// <response code="200">Returns the review</response>
+        /// <response code="200">Returns the Reviews </response>
         /// <response code="404">review not found</response>
         // GET: api/Reviews/5
         [HttpGet("{id}")]
@@ -91,7 +91,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Updates a review based on its' id.
+        /// Updates a Review based on its' id.
         /// </summary>
         /// <returns>review</returns>
         /// <response code="204">review updated, no response</response>
@@ -143,7 +143,7 @@ namespace backlogged_api.Controllers
         /// Adds a new review to the store.
         /// </summary>
         /// <returns>review</returns>
-        /// <response code="201">Returns the review</response>
+        /// <response code="201">Returns the Reviews </response>
         /// <response code="400">Bad request</response>
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -187,7 +187,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a review from the store.
+        /// Deletes a Review from the store.
         /// </summary>
         /// <returns>review</returns>
         /// <response code="204">review deleted, no response</response>
