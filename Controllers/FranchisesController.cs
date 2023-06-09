@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,10 +29,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets all franchises.
+        /// Gets all Franchises.
         /// </summary>
-        /// <returns>All franchises</returns>
-        /// <response code="200">Returns the franchises correctly</response>
+        /// <returns>All Franchises</returns>
+        /// <response code="200">Returns the Franchises correctly</response>
         // GET: api/Franchises
         [MapToApiVersion("1.0")]
         [HttpGet]
@@ -65,10 +65,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a franchise based on its' id.
+        /// Gets a Franchise based on its' id.
         /// </summary>
         /// <returns>Franchise</returns>
-        /// <response code="200">Returns the franchise</response>
+        /// <response code="200">Returns the Franchise</response>
         /// <response code="404">Franchise not found</response>
         // GET: api/Franchises/5
         [HttpGet("{id}")]
@@ -97,10 +97,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Updates a franchise's details.
+        /// Updates a Franchise's details.
         /// </summary>
-        /// <response code="204">Publisher updated, no content</response>
-        /// <response code="404">Publisher not found</response>
+        /// <response code="204">Franchise updated, no content</response>
+        /// <response code="404">Franchise not Franchise</response>
         /// <response code="400">Bad request</response>
         // PUT: api/Franchises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -141,9 +141,9 @@ namespace backlogged_api.Controllers
         /// Adds a new Franchise to the store.
         /// </summary>
         /// <returns>Franchise</returns>
-        /// <response code="201">Publisher created</response>
+        /// <response code="200">Franchise created</response>
         /// <response code="400">Bad request</response>
-        // POST: api/Publishers
+        // POST: api/Franchises
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -163,11 +163,11 @@ namespace backlogged_api.Controllers
             return CreatedAtAction(nameof(GetFranchise), new { id = franchise.Id }, new FranchiseDto { id = franchise.Id, name = franchise.Name });
         }
         /// <summary>
-        /// Deletes a Publisher from the store.
+        /// Deletes a Franchise from the store.
         /// </summary>
-        /// <returns>Publisher</returns>
-        /// <response code="204">Publisher deleted, no content</response>
-        /// <response code="404">Publisher not found</response>
+        /// <returns>Franchise</returns>
+        /// <response code="204">Franchise deleted, no content</response>
+        /// <response code="404">Franchise not found</response>
 
         // DELETE: api/Franchises/5
         [HttpDelete("{id}")]
