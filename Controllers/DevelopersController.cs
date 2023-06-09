@@ -23,10 +23,10 @@ namespace backlogged_api.Controllers
             _context = context;
         }
         /// <summary>
-        /// Gets all developers.
+        /// Gets all Developers.
         /// </summary>
         /// <returns>All developers</returns>
-        /// <response code="200">Returns the developers correctly</response>
+        /// <response code="200">Returns the Developers correctly</response>
         // GET: api/Developers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -56,10 +56,10 @@ namespace backlogged_api.Controllers
             return Ok(developers);
         }
         /// <summary>
-        /// Gets a developer based on its' id.
+        /// Gets a Developer based on its' id.
         /// </summary>
         /// <returns>Developer</returns>
-        /// <response code="200">Returns the developer</response>
+        /// <response code="200">Returns the Developer</response>
         /// <response code="404">Developer not found</response>
         // GET: api/Developers/5
         [HttpGet("{id}")]
@@ -87,7 +87,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Updates a developer based on its' id.
+        /// Updates a Developer based on its' id.
         /// </summary>
         /// <returns>Developer</returns>
         /// <response code="204">Developer updated, no response</response>
@@ -132,7 +132,7 @@ namespace backlogged_api.Controllers
         /// Adds a new Developer to the store.
         /// </summary>
         /// <returns>Developer</returns>
-        /// <response code="201">Returns the developer</response>
+        /// <response code="201">Returns the Developer</response>
         /// <response code="400">Bad request</response>
         // POST: api/Developers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -155,7 +155,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a developer from the store.
+        /// Deletes a Developer from the store.
         /// </summary>
         /// <returns>Developer</returns>
         /// <response code="204">Developer deleted, no response</response>
@@ -182,7 +182,7 @@ namespace backlogged_api.Controllers
             return NoContent();
         }
         /// <summary>
-        /// Gets the games for a developer.
+        /// Gets the games for a Developer.
         /// </summary>
         /// <returns>backlog</returns>
         /// <response code="200">Games</response>
