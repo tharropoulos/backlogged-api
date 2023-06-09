@@ -90,7 +90,7 @@ namespace backlogged_api.Controllers
         /// Gets a User based on its' id.
         /// </summary>
         /// <returns>User</returns>
-        /// <response code="200">Returns the user</response>
+        /// <response code="200">Returns the User</response>
         /// <response code="404">User not found</response>
         // GET: api/Users/5
         [HttpGet("{id}")]
@@ -207,7 +207,7 @@ namespace backlogged_api.Controllers
         /// Updates a User's email based on their id.
         /// </summary>
         /// <returns>User's email</returns>
-        /// <response code="200">Returns the user's email</response>
+        /// <response code="200">Returns the User's email</response>
         /// <response code="404">User not found</response>
         // GET: api/Users/5/email
         [HttpPatch("{id}/Email")]
@@ -258,7 +258,7 @@ namespace backlogged_api.Controllers
         /// <summary>
         /// Updates a User's password based on their id.
         /// </summary>
-        /// <response code="204">Updates the user's password</response>
+        /// <response code="204">Updates the User's password</response>
         /// <response code="404">User not found</response>
         /// <response code="400">Bad request</response>
         // GET: api/Users/5/email
@@ -358,7 +358,7 @@ namespace backlogged_api.Controllers
         /// Adds a new User to the store.
         /// </summary>
         /// <returns>User</returns>
-        /// <response code="201">Returns the user</response>
+        /// <response code="201">Returns the User</response>
         /// <response code="400">Bad request</response>
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -416,7 +416,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Reviews</response>
         /// <response code="404">Backlog not found</response>
         // Get: api/Backlogs/uuid/Reviews
-        [HttpGet("{id}/Reviews")]
+        [HttpGet("{id}/Review")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -498,7 +498,7 @@ namespace backlogged_api.Controllers
         /// Gets a User's backlog.
         /// </summary>
         /// <returns>Backlog</returns>
-        /// <response code="200">Returns the users correctly</response>
+        /// <response code="200">Returns the Users correctly</response>
         /// <response code="404">User not found</response>
         // GET: api/Users
         [HttpGet("{id}/backlog")]
