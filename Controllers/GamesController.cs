@@ -21,11 +21,11 @@ namespace backlogged_api.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class GamesController : ControllerBase
+    public class GameController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
 
-        public GamesController(BackloggedDBContext context)
+        public GameController(BackloggedDBContext context)
         {
             _context = context;
         }
