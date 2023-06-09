@@ -8,7 +8,6 @@ namespace backlogged_api.DTO.Backlog
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public Boolean IsVisible { get; set; } = false;
-        public PagedList<GameDto>? Games { get; set; }
 
     }
 }
