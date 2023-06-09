@@ -201,7 +201,7 @@ namespace backlogged_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<GameDto>>> GetGames(Guid id, [FromQuery] PagingParams pagingParams)
         {
-            if (_context.Publishers == null)
+            if (_context.Franchises == null)
             {
                 return NotFound();
             }
