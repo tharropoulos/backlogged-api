@@ -140,7 +140,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Adds a new review to the store.
+        /// Adds a new review to Backlogged.
         /// </summary>
         /// <returns>review</returns>
         /// <response code="201">Returns the Reviews </response>
@@ -187,7 +187,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a Review from the store.
+        /// Deletes a Review from Backlogged.
         /// </summary>
         /// <returns>review</returns>
         /// <response code="204">review deleted, no response</response>
