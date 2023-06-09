@@ -29,11 +29,11 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets all platforms.
+        /// Gets all Platforms.
         /// </summary>
-        /// <returns>All platforms</returns>
-        /// <response code="200">Returns the platforms correctly</response>
-        // GET: api/Platforms
+        /// <returns>All Platforms</returns>
+        /// <response code="200">Returns the Platforms correctly</response>
+        // GET: apPlatform/Platforms
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PlatformDto>>> GetAllPlatforms([FromQuery] PagingParams pagingParams)
@@ -62,11 +62,11 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a platform based on its' id.
+        /// Gets a Platform based on its' id.
         /// </summary>
         /// <returns>platform</returns>
-        /// <response code="200">Returns the platform</response>
-        /// <response code="404">platform not found</response>
+        /// <response code="200">Returns the Platform</response>
+        /// <response code="404">Platform not found</response>
         // GET: api/Platforms/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -94,7 +94,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Updates a platform based on its' id.
+        /// Updates a Platform based on its' id.
         /// </summary>
         /// <returns>platform</returns>
         /// <response code="204">platform updated, no response</response>
@@ -144,8 +144,8 @@ namespace backlogged_api.Controllers
         /// Adds a new platform to the store.
         /// </summary>
         /// <returns>platform</returns>
-        /// <response code="201">Returns the platform</response>
-        /// <response code="400">Bad request</response>
+        /// <response code="201">Returns the Platform</response>
+        /// <response code="400">BaPlatform request</response>
         // POST: api/Platforms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -167,7 +167,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a platform from the store.
+        /// Deletes a Platform from the store.
         /// </summary>
         /// <returns>platform</returns>
         /// <response code="204">platform deleted, no response</response>
@@ -195,7 +195,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets the games for a platform.
+        /// Gets the games for a Platform.
         /// </summary>
         /// <returns>backlog</returns>
         /// <response code="200">Games</response>
