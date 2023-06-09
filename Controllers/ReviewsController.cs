@@ -16,11 +16,11 @@ namespace backlogged_api.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ReviewsController : ControllerBase
+    public class ReviewController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
 
-        public ReviewsController(BackloggedDBContext context)
+        public ReviewController(BackloggedDBContext context)
         {
             _context = context;
         }
