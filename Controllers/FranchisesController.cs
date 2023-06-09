@@ -138,7 +138,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Adds a new Franchise to the store.
+        /// Adds a new Franchise to Backlogged.
         /// </summary>
         /// <returns>Franchise</returns>
         /// <response code="200">Franchise created</response>
@@ -163,7 +163,7 @@ namespace backlogged_api.Controllers
             return CreatedAtAction(nameof(GetFranchise), new { id = franchise.Id }, new FranchiseDto { id = franchise.Id, name = franchise.Name });
         }
         /// <summary>
-        /// Deletes a Franchise from the store.
+        /// Deletes a Franchise from Backlogged.
         /// </summary>
         /// <returns>Franchise</returns>
         /// <response code="204">Franchise deleted, no content</response>
