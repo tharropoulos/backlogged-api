@@ -29,10 +29,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets all genres.
+        /// Gets all Genres.
         /// </summary>
-        /// <returns>All genres</returns>
-        /// <response code="200">Returns the genres correctly</response>
+        /// <returns>All Genres</returns>
+        /// <response code="200">Returns the Genres correctly</response>
         // GET: api/Genres
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -63,10 +63,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a genre based on its' id.
+        /// Gets a Genre based on its' id.
         /// </summary>
         /// <returns>genre</returns>
-        /// <response code="200">Returns the genre</response>
+        /// <response code="200">Returns the Genre</response>
         /// <response code="404">genre not found</response>
         // GET: api/Genres/5
         [HttpGet("{id}")]
@@ -96,7 +96,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Updates a genre based on its' id.
+        /// Updates a Genre based on its' id.
         /// </summary>
         /// <returns>genre</returns>
         /// <response code="204">genre updated, no response</response>
@@ -146,7 +146,7 @@ namespace backlogged_api.Controllers
         /// Adds a new genre to the store.
         /// </summary>
         /// <returns>genre</returns>
-        /// <response code="201">Returns the genre</response>
+        /// <response code="201">Returns the Genre</response>
         /// <response code="400">Bad request</response>
         // POST: api/Genres
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -169,7 +169,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a genre from the store.
+        /// Deletes a Genre from the store.
         /// </summary>
         /// <returns>genre</returns>
         /// <response code="204">genre deleted, no response</response>
