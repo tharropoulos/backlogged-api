@@ -37,6 +37,7 @@ builder.Services.AddAuthentication(x =>
 });
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 // Add PostgreSQL support
 builder.Services.AddDbContext<BackloggedDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
