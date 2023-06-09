@@ -203,7 +203,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Games</response>
         /// <response code="404">Backlog not found</response>
         // Get: api/Backlogs/uuid/Games
-        [HttpGet("{id}/Games")]
+        [HttpGet("{id}/Game")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<GameDto>>> GetGames(Guid id, [FromQuery] PagingParams pagingParams)
