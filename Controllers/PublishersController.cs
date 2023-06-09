@@ -29,10 +29,10 @@ namespace backlogged_api.Controllers
             _context = context;
         }
         /// <summary>
-        /// Gets all publishers.
+        /// Gets all Publishers.
         /// </summary>
-        /// <returns>All publishers</returns>
-        /// <response code="200">Returns the publishers correctly</response>
+        /// <returns>All Publishers</returns>
+        /// <response code="200">Returns the Publisherss correctly</response>
         // GET: api/Publishers
         [MapToApiVersion("1.0")]
         [HttpGet]
@@ -62,10 +62,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a publisher based on their id.
+        /// Gets a Publisher based on their id.
         /// </summary>
         /// <returns>Publisher</returns>
-        /// <response code="200">Returns the publisher</response>
+        /// <response code="200">Returns the Publishers</response>
         /// <response code="404">Publisher not found</response>
         // GET: api/Publishers/4e78f04c-74b6-458f-9590-40b2194af61b
         [HttpGet("{id}")]
@@ -91,7 +91,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Updates a publisher's details.
+        /// Updates a Publisher's details.
         /// </summary>
         /// <returns>Publisher</returns>
         /// <response code="204">Publisher updated, no content</response>
