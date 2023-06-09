@@ -34,7 +34,7 @@ namespace backlogged_api.Controllers
         /// Gets all games.
         /// </summary>
         /// <returns>All games</returns>
-        /// <response code="200">Returns the games correctly</response>
+        /// <response code="200">Returns the Games correctly</response>
         // GET: api/Games
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,10 +75,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a game based on its' id.
+        /// Gets a Game based on its' id.
         /// </summary>
         /// <returns>game</returns>
-        /// <response code="200">Returns the game</response>
+        /// <response code="200">Returns the Game</response>
         /// <response code="404">game not found</response>
         // GET: api/Games/5
         [HttpGet("{id}")]
@@ -170,7 +170,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Updates a game based on its' id.
+        /// Updates a Game based on its' id.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="204">game updated, no response</response>
@@ -226,7 +226,7 @@ namespace backlogged_api.Controllers
         /// Adds a new game to the store.
         /// </summary>
         /// <returns>game</returns>
-        /// <response code="201">Returns the game</response>
+        /// <response code="201">Returns the Game</response>
         /// <response code="400">Bad request</response>
         // POST: api/Games
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -277,7 +277,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a game from the store.
+        /// Deletes a Game from the store.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="204">game deleted, no response</response>
@@ -305,7 +305,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets the platforms for a game.
+        /// Gets the platforms for a Game.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="200">Developers</response>
@@ -351,7 +351,7 @@ namespace backlogged_api.Controllers
             return Ok(developerDtos);
         }
         /// <summary>
-        /// Updates a game's developers list.
+        /// Updates a Game's developers list.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="204">game updated, no response</response>
@@ -415,7 +415,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets the genres for a game.
+        /// Gets the genres for a Game.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="200">Genres</response>
@@ -460,7 +460,7 @@ namespace backlogged_api.Controllers
             return Ok(genreDtos);
         }
         /// <summary>
-        /// Updates a game's genres list.
+        /// Updates a Game's genres list.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="204">game updated, no response</response>
@@ -522,7 +522,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets the platforms for a game.
+        /// Gets the platforms for a Game.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="200">Platforms</response>
@@ -569,7 +569,7 @@ namespace backlogged_api.Controllers
             return Ok(platformDtos);
         }
         /// <summary>
-        /// Updates a game's platforms list.
+        /// Updates a Game's platforms list.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="204">game updated, no response</response>
@@ -630,7 +630,7 @@ namespace backlogged_api.Controllers
 
         }
         /// <summary>
-        /// Gets the franchise for a game.
+        /// Gets the franchise for a Game.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="200">Developers</response>
@@ -664,7 +664,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets the publisher for a game.
+        /// Gets the publisher for a Game.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="200">Publisher</response>
@@ -698,7 +698,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets the Reviews for a game.
+        /// Gets the Reviews for a Game.
         /// </summary>
         /// <returns>review</returns>
         /// <response code="200">Reviews</response>
