@@ -143,7 +143,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Adds a new genre to the store.
+        /// Adds a new genre to Backlogged.
         /// </summary>
         /// <returns>genre</returns>
         /// <response code="201">Returns the Genre</response>
@@ -169,7 +169,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a Genre from the store.
+        /// Deletes a Genre from Backlogged.
         /// </summary>
         /// <returns>genre</returns>
         /// <response code="204">genre deleted, no response</response>
