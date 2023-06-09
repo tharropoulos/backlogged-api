@@ -31,7 +31,7 @@ namespace backlogged_api.Controllers
 
 
         /// <summary>
-        /// Gets all backlogs.
+        /// Gets all Backlogs.
         /// </summary>
         /// <returns>All backlogs</returns>
         /// <response code="200">Returns the backlogs correctly</response>
@@ -69,7 +69,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a backlog based on its' id.
+        /// Gets a Backlog based on its' id.
         /// </summary>
         /// <returns>backlog</returns>
         /// <response code="200">Returns the backlog</response>
@@ -105,7 +105,7 @@ namespace backlogged_api.Controllers
 
 
         /// <summary>
-        /// Updates a backlog visibility based on its' id.
+        /// Updates a Backlog visibility based on its' id.
         /// </summary>
         /// <returns>backlog</returns>
         /// <response code="204">backlog updated, no response</response>
@@ -155,7 +155,7 @@ namespace backlogged_api.Controllers
 
 
         /// <summary>
-        /// Gets the games for a backlog.
+        /// Gets the games for a Backlog.
         /// </summary>
         /// <returns>backlog</returns>
         /// <response code="200">Games</response>
@@ -204,7 +204,7 @@ namespace backlogged_api.Controllers
             return Ok(gameDtos);
         }
         /// <summary>
-        /// Updates a backlog's games list. Use "add" or "remove" operation to update the list.
+        /// Updates a Backlog's games list. Use "add" or "remove" operation to update the list.
         /// </summary>
         /// <returns>game</returns>
         /// <response code="204">backlog updated, no response</response>
@@ -228,7 +228,7 @@ namespace backlogged_api.Controllers
                 return NotFound("backlog not Found");
 
 
-            // if a backlog already has a game, return bad request
+            // if a Backlog already has a game, return bad request
             if (backlog.Games.Where(w => updateBacklogDto.GameIds.Contains(w.Id)).Any())
                 return BadRequest("Game already exists in backlog");
 
