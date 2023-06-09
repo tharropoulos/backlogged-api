@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backlogged_api.Data;
 using backlogged_api.Models;
@@ -129,7 +129,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Adds a new Developer to the store.
+        /// Adds a new Developer to Backlogged.
         /// </summary>
         /// <returns>Developer</returns>
         /// <response code="201">Returns the Developer</response>
@@ -155,7 +155,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a Developer from the store.
+        /// Deletes a Developer from Backlogged.
         /// </summary>
         /// <returns>Developer</returns>
         /// <response code="204">Developer deleted, no response</response>
