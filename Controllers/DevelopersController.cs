@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backlogged_api.Data;
 using backlogged_api.Models;
@@ -14,11 +14,11 @@ namespace backlogged_api.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class DevelopersController : ControllerBase
+    public class DeveloperController : ControllerBase
     {
         private readonly BackloggedDBContext _context;
 
-        public DevelopersController(BackloggedDBContext context)
+        public DeveloperController(BackloggedDBContext context)
         {
             _context = context;
         }
