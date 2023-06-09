@@ -154,7 +154,7 @@ namespace backlogged_api.Controllers
             if (res == true)
             {
                 var token = await CreateTokenAsync(user);
-                return Ok(new { token });
+                return Created("", new { token });
             }
             else
             {
