@@ -355,7 +355,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Adds a new User to the store.
+        /// Adds a new User to Backlogged.
         /// </summary>
         /// <returns>User</returns>
         /// <response code="201">Returns the User</response>
@@ -458,7 +458,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a User from the store.
+        /// Deletes a User from Backlogged.
         /// </summary>
         /// <returns>User</returns>
         /// <response code="204">User deleted, no response</response>
