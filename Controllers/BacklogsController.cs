@@ -161,7 +161,7 @@ namespace backlogged_api.Controllers
         /// <response code="200">Games</response>
         /// <response code="404">Backlog not found</response>
         // Get: api/Backlogs/uuid/Games
-        [HttpGet("{id}/Games")]
+        [HttpGet("{id}/Game")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<GameDto>>> GetGames(Guid id, [FromQuery] PagingParams pagingParams)
@@ -211,7 +211,7 @@ namespace backlogged_api.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="404">game not found</response>
         // PUT: api/Games/5
-        [HttpPatch("{id}/Games")]
+        [HttpPatch("{id}/Game")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
