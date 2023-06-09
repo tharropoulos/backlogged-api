@@ -21,14 +21,14 @@ namespace backlogged_api.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly BackloggedDBContext _context;
         private readonly IConfiguration _configuration;
 
-        public UsersController(BackloggedDBContext context, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+        public UserController(BackloggedDBContext context, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -37,10 +37,10 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets all users.
+        /// Gets all Users.
         /// </summary>
-        /// <returns>All users</returns>
-        /// <response code="200">Returns the users correctly</response>
+        /// <returns>All Users</returns>
+        /// <response code="200">Returns the Users correctly</response>
         // GET: api/Users
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -87,7 +87,7 @@ namespace backlogged_api.Controllers
             return Ok(userDtos);
         }
         /// <summary>
-        /// Gets a user based on its' id.
+        /// Gets a User based on its' id.
         /// </summary>
         /// <returns>User</returns>
         /// <response code="200">Returns the user</response>
@@ -125,7 +125,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Logs in a user based on their username and password.Attribute
+        /// Logs in a User based on their username and password.Attribute
         /// </summary>
         /// <returns>User</returns>
         /// <response code="201">JWT token created</response>
@@ -204,7 +204,7 @@ namespace backlogged_api.Controllers
             return token;
         }
         /// <summary>
-        /// Updates a user's email based on their id.
+        /// Updates a User's email based on their id.
         /// </summary>
         /// <returns>User's email</returns>
         /// <response code="200">Returns the user's email</response>
@@ -256,7 +256,7 @@ namespace backlogged_api.Controllers
 
 
         /// <summary>
-        /// Updates a user's password based on their id.
+        /// Updates a User's password based on their id.
         /// </summary>
         /// <response code="204">Updates the user's password</response>
         /// <response code="404">User not found</response>
@@ -306,7 +306,7 @@ namespace backlogged_api.Controllers
 
 
         /// <summary>
-        /// Updates a user based on their id.
+        /// Updates a User based on their id.
         /// </summary>
         /// <response code="204">User updated, no response</response>
         /// <response code="400">Bad request</response>
@@ -410,7 +410,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets the reviews for a user.
+        /// Gets the reviews for a User.
         /// </summary>
         /// <returns>backlog</returns>
         /// <response code="200">Reviews</response>
@@ -458,7 +458,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Deletes a user from the store.
+        /// Deletes a User from the store.
         /// </summary>
         /// <returns>User</returns>
         /// <response code="204">User deleted, no response</response>
@@ -495,7 +495,7 @@ namespace backlogged_api.Controllers
         }
 
         /// <summary>
-        /// Gets a user's backlog.
+        /// Gets a User's backlog.
         /// </summary>
         /// <returns>Backlog</returns>
         /// <response code="200">Returns the users correctly</response>
