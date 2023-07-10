@@ -61,7 +61,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Version = "v1",
         Title = "Backlogged API",
-        Description = "An ASP.NET Core Web API for Backlogged. You can find the repository at [https://github.com/tharropoulos/backlogged-api](here)",
+        Description = "An ASP.NET Core Web API for Backlogged. You can find the repository at [here](https://github.com/tharropoulos/backlogged-api)",
         Contact = new OpenApiContact
         {
             Name = "Fanis Tharropoulos",
